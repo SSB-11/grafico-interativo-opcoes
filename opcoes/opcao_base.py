@@ -20,6 +20,12 @@ class Opcao(ABC):
 
 
     def conferir_atributos(self):
+        "Checar se quantidade é um número inteiro, strike é positivo, etc etc."
+        pass
+
+
+    @abstractmethod
+    def calcular_preco_vencimento(self, preco_acao):
         pass
 
 
