@@ -1,5 +1,5 @@
 import numpy as np
-from opcoes.estrategias import Call, Put, Estrategia
+from opcoes.opcao import Call, Put
 
 print('Sucesso!')
 
