@@ -38,9 +38,9 @@ class Opcao(ABC):
         - Quando uma opção é vendida, recebe-se um prêmio.
         """
         if self.operacao == 'Compra':
-            return self.calcular_preco_vencimento(preco_acao) - self.premio
+            return self.quantidade * (self.calcular_preco_vencimento(preco_acao) - self.premio)
         if self.operacao == 'Venda':
-            return self.premio - self.calcular_preco_vencimento(preco_acao)
+            return self.quantidade * (self.premio - self.calcular_preco_vencimento(preco_acao))
 
 
     def __str__(self):
