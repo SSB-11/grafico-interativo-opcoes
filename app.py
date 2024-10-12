@@ -9,6 +9,8 @@ from opcoes.estrategia import Estrategia
 if not st.session_state.get('estrategia'):
     st.session_state.estrategia = Estrategia()
 
+st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
+
 
 @st.dialog("Adicione uma opção")
 def adicionar_opcao():
@@ -36,6 +38,7 @@ def adicionar_opcao():
             else Put(strike, premio, operacao, quantidade)
         )
         st.session_state.estrategia.adicionar_opcao(opcao)
+        st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
         st.rerun()
 
 column1, column2, column3 = st.columns([1, 2, 1])
@@ -46,11 +49,12 @@ with column1:
         adicionar_opcao()
     if limpar:
         st.session_state.estrategia.limpar_estrategia()
+        st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
 
 
 fig = go.Figure()
 
-opcoes = st.session_state.estrategia.get_opcoes()
+opcoes = st.session_state.opcoes
 min_strike = 0
 max_strike = 0
 if opcoes:
@@ -62,7 +66,7 @@ if opcoes:
 delta = max_strike - min_strike
 
 i = 1
-for opcao in st.session_state.estrategia.get_opcoes():
+for opcao in opcoes:
     # x = np.arange(opcao.strike - 2, 14, 0.01)
     x = np.arange(min_strike - delta, max_strike + delta, 0.01)
     y = opcao.calcular_payoff(x)
