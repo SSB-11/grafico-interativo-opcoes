@@ -20,6 +20,10 @@ class Estrategia:
         return self._opcoes
 
     
+    def limpar_estrategia(self):
+        self._opcoes = []
+
+    
     def calcular_payoff(self, preco_acao):
         payoff = 0
         for opcao in self.get_opcoes():

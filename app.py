@@ -5,12 +5,10 @@ import plotly.graph_objects as go
 from opcoes.opcao import Call, Put
 from opcoes.estrategia import Estrategia
 
-# st.session_state.show_graphic = False
-# st.markdown("<h1 style='text-align: center;'>Gráfico Interativo</h1>", unsafe_allow_html=True)
-st.title("Gráfico Interativo")
-adicionar = st.button("Adicionar Opção")
+
 if not st.session_state.get('estrategia'):
     st.session_state.estrategia = Estrategia()
+
 
 @st.dialog("Adicione uma opção")
 def adicionar_opcao():
@@ -38,13 +36,17 @@ def adicionar_opcao():
             else Put(strike, premio, operacao, quantidade)
         )
         st.session_state.estrategia.adicionar_opcao(opcao)
-        # st.session_state.show_graphic = True
         st.rerun()
 
-if adicionar:
-    adicionar_opcao()
+column1, column2, column3 = st.columns([1, 2, 1])
+with column1:
+    adicionar = st.button("Adicionar Opção")
+    limpar = st.button("Limpar Gráfico")
+    if adicionar:
+        adicionar_opcao()
+    if limpar:
+        st.session_state.estrategia.limpar_estrategia()
 
-# if st.session_state.show_graphic == True:
 fig = go.Figure()
 i = 1
 for opcao in st.session_state.estrategia.get_opcoes():
@@ -59,7 +61,7 @@ fig.update_xaxes(tickformat=".2f")
 fig.update_layout(
     title={
         'text': 'Resultado no Vencimento',
-        'x': 0.55,
+        'x': 0.5,
         'xanchor': 'center'
     },
     xaxis_title='Preço do Ativo (R$)',
@@ -69,4 +71,7 @@ fig.update_layout(
     template='plotly_dark'
 )
 
-st.plotly_chart(fig)
+with column2:
+    # st.title("Gráfico Interativo")
+    st.markdown("<h1 style='text-align: center;'>Gráfico Interativo</h1>", unsafe_allow_html=True)
+    st.plotly_chart(fig)
