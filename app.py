@@ -74,7 +74,11 @@ i = 1
 for opcao in opcoes:
     # x = np.arange(opcao.strike - 2, 14, 0.01)
     y = opcao.calcular_payoff(x)
-    fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=f'Opcão {i}'))
+    if len(opcoes) > 1:
+        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=f'Opcão {i}', visible='legendonly'))
+    else:
+        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=f'Opcão {i}'))
+
     i += 1
 
 fig.update_yaxes(tickformat=".2f")
