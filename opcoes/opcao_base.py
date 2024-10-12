@@ -2,19 +2,21 @@ from abc import ABC, abstractmethod
 
 
 class Opcao(ABC):
-    def __init__(self, strike: float, premio: float, quantidade: int = 100):
+    def __init__(self, strike: float, premio: float, operacao: str = 'Compra', quantidade: int = 100):
         """
         Inicializa uma nova instância da classe Opcao.
         
         Args:
         strike (float): Preço de exercício (strike).
         premio (float): Prêmio pago ou recebido pela opção.
-        quantidade (int): Quantidade de opções compradas (quantidade > 0) ou vendidas (quantidade < 0) (padrão é 100).
+        operacao (str): `Compra` ou `Venda` da opção (padrão é `Compra`).
+        quantidade (int): Quantidade de opções compradas ou vendidas (padrão é 100).
         """
 
         self.strike = strike
         self.premio = premio
         self.quantidade = quantidade
+        self.operacao = operacao
 
         self.conferir_atributos()
 
@@ -35,15 +37,14 @@ class Opcao(ABC):
         - Quando uma opção é comprada, paga-se um prêmio.
         - Quando uma opção é vendida, recebe-se um prêmio.
         """
-        if self.quantidade > 0:
+        if self.operacao == 'Compra':
             return self.calcular_preco_vencimento(preco_acao) - self.premio
-        if self.quantidade < 0:
+        if self.operacao == 'Venda':
             return self.premio - self.calcular_preco_vencimento(preco_acao)
-        else: return 0
 
 
-    def __str__(self, tipo):
+    def __str__(self):
             """
             Retorna uma representação em string da opção.
             """
-            return f"Strike: {self.strike}, Prêmio: {self.premio}, Quantidade: {self.quantidade}"
+            return f"Strike: {self.strike}, Prêmio: {self.premio}, Quantidade: {self.quantidade}, Operação: {self.operacao}"

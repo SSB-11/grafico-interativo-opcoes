@@ -27,7 +27,7 @@ def adicionar_opcao():
     submitted = st.button("Adicionar")
     if submitted:
         st.session_state.opcao_info = {
-            'opcao': Call(strike, premio) if tipo_opcao == 'Call' else Put(strike, premio),
+            'opcao': Call(strike, premio, operacao) if tipo_opcao == 'Call' else Put(strike, premio, operacao),
             'strike': strike, 
             'premio': premio,
             'tipo_opcao': tipo_opcao,
@@ -45,6 +45,11 @@ fig = go.Figure()
 opcao = st.session_state.opcao_info
 x = np.arange(opcao['strike'] - 2, 14, 0.01)
 y = opcao['opcao'].calcular_payoff(x)
+
+st.write(x)
+st.write(y)
+st.write(opcao['opcao'])
+
 fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Line Plot'))
 
 fig.update_layout(
