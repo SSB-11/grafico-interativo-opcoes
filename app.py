@@ -11,16 +11,19 @@ adicionar = st.button("Adicionar Opção")
 
 @st.dialog("Adicione uma opção")
 def adicionar_opcao():
-    tipo_opcao = st.radio(
-        'Tipo de opção:',
-        ['Call', 'Put'],
-        captions=['Opção de Compra', 'Opção de Venda']
-    )
-    operacao = st.radio(
-        'Tipo de operação:',
-        ['Compra', 'Venda'],
-        captions=['Compra de Opção', 'Venda de Opção']
-    )
+    col1, col2 = st.columns(2)
+    with col1:
+        tipo_opcao = st.radio(
+            'Tipo de opção:',
+            ['Call', 'Put'],
+            captions=['Opção de Compra', 'Opção de Venda']
+        )
+    with col2:
+        operacao = st.radio(
+            'Tipo de operação:',
+            ['Compra', 'Venda'],
+            captions=['Compra de Opção', 'Venda de Opção']
+        )
     strike = st.number_input('Strike: ', min_value=0.01, step=0.01)
     premio = st.number_input('Prêmio: ', min_value=0.01, step=0.01)
     quantidade = st.number_input('Quantidade: ', min_value=1, step=100, value=100)
