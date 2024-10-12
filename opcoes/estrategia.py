@@ -3,11 +3,11 @@ class Estrategia:
         self._opcoes = []
 
 
-    def adicionar_opcao(opcao):
+    def adicionar_opcao(self, opcao):
         self._opcoes.append(opcao)
 
 
-    def remover_opcao(opcao):
+    def remover_opcao(self, opcao):
         try:
             self._opcoes.remove(opcao)
             return True
@@ -16,7 +16,7 @@ class Estrategia:
             return False
 
     
-    def calcular_payoff(preco_acao):
+    def calcular_payoff(self, preco_acao):
         payoff = 0
         for opcao in self._opcoes:
             payoff += opcao.calcular_payoff(preco_acao)
