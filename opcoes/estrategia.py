@@ -15,9 +15,13 @@ class Estrategia:
             print("A opção especificada não está na estratégia.")
             return False
 
+
+    def get_opcoes(self):
+        return self._opcoes
+
     
     def calcular_payoff(self, preco_acao):
         payoff = 0
-        for opcao in self._opcoes:
+        for opcao in self.get_opcoes():
             payoff += opcao.calcular_payoff(preco_acao)
         return payoff
