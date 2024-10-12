@@ -47,10 +47,24 @@ with column1:
     if limpar:
         st.session_state.estrategia.limpar_estrategia()
 
+
 fig = go.Figure()
+
+opcoes = st.session_state.estrategia.get_opcoes()
+min_strike = 0
+max_strike = 0
+if opcoes:
+    min_strike = np.min([opcao.strike for opcao in opcoes])
+    max_strike = np.max([opcao.strike for opcao in opcoes])
+    if (min_strike - max_strike) < 1:
+        min_strike -= 1
+        max_strike += 1
+delta = max_strike - min_strike
+
 i = 1
 for opcao in st.session_state.estrategia.get_opcoes():
-    x = np.arange(opcao.strike - 2, 14, 0.01)
+    # x = np.arange(opcao.strike - 2, 14, 0.01)
+    x = np.arange(min_strike - delta, max_strike + delta, 0.01)
     y = opcao.calcular_payoff(x)
     fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=f'Opcão {i}'))
     i += 1
@@ -64,6 +78,9 @@ fig.update_layout(
         'x': 0.5,
         'xanchor': 'center'
     },
+    # xaxis={
+    #     'range': [min_strike - delta, max_strike + delta]
+    # },
     xaxis_title='Preço do Ativo (R$)',
     yaxis_title='Lucro/Prejuízo (R$)',
     width=800,
