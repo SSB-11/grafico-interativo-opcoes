@@ -14,3 +14,10 @@ class Estrategia:
         except ValueError:
             print("A opção especificada não está na estratégia.")
             return False
+
+    
+    def calcular_payoff(preco_acao):
+        payoff = 0
+        for opcao in self._opcoes:
+            payoff += opcao.calcular_payoff(preco_acao)
+        return payoff
