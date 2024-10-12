@@ -65,10 +65,14 @@ if opcoes:
         max_strike += 1
 delta = max_strike - min_strike
 
+x = np.arange(min_strike - delta, max_strike + delta, 0.01)
+if len(opcoes) > 1:
+    y = st.session_state.estrategia.calcular_payoff(x)
+    fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Estratégia'))
+
 i = 1
 for opcao in opcoes:
     # x = np.arange(opcao.strike - 2, 14, 0.01)
-    x = np.arange(min_strike - delta, max_strike + delta, 0.01)
     y = opcao.calcular_payoff(x)
     fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=f'Opcão {i}'))
     i += 1
