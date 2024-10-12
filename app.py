@@ -46,11 +46,10 @@ opcao = st.session_state.opcao_info
 x = np.arange(opcao['strike'] - 2, 14, 0.01)
 y = opcao['opcao'].calcular_payoff(x)
 
-st.write(x)
-st.write(y)
-st.write(opcao['opcao'])
-
 fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Line Plot'))
+
+fig.update_yaxes(tickformat=".2f")
+fig.update_xaxes(tickformat=".2f")
 
 fig.update_layout(
     title={
