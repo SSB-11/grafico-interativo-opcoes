@@ -1,11 +1,14 @@
+import numpy as np
 import streamlit as st
 import plotly.graph_objects as go
 
-st.title("Gráfico Interativo")
+from opcoes.opcao import Call, Put
 
-col1, col2, col3 = st.columns(3)
+
+st.markdown("<h1 style='text-align: center;'>Gráfico Interativo</h1>", unsafe_allow_html=True)
+
+col1, col2 = st.columns([1, 2])
 with col1:
-    st.header("Column 1")
     with st.form("opcao"):
         tipo_opcao = st.radio(
             'Tipo de opção:',
@@ -20,9 +23,33 @@ with col1:
         strike = st.number_input('Strike: ', min_value=0.01, step=0.01)
         premio = st.number_input('Prêmio: ', min_value=0.01, step=0.01)
         submitted = st.form_submit_button("Adicionar")
+        if submitted:
+            st.session_state.opcao_info = {
+                'opcao': Call(strike, premio) if tipo_opcao == 'Call' else Put(strike, premio),
+                'strike': strike, 
+                'premio': premio,
+                'tipo_opcao': tipo_opcao,
+                'operacao': operacao
+            }
 with col2:
-    st.header("Column 2")
-    st.write("Content 2")
-with col3:
-    st.header("Column 3")
-    st.write("Content 3")
+    if submitted:
+        fig = go.Figure()
+        x = np.arange(strike - 2, 14, 0.01)
+        y = st.session_state.opcao_info['opcao'].calcular_payoff(x)
+        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Line Plot'))
+
+        fig.update_layout(
+            title={
+                'text': 'Resultado no Vencimento',
+                'x': 0.55,
+                'xanchor': 'center'
+            },
+            xaxis_title='Preço do Ativo (R$)',
+            yaxis_title='Lucro/Prejuízo (R$)',
+            template='plotly_dark'
+        )
+
+        st.plotly_chart(fig)
+# with col3:
+#     st.header("Column 3")
+#     st.write("Content 3")
