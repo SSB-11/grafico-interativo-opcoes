@@ -46,6 +46,8 @@ with col2:
             },
             xaxis_title='Preço do Ativo (R$)',
             yaxis_title='Lucro/Prejuízo (R$)',
+            width=800,
+            height=600,
             template='plotly_dark'
         )
 
