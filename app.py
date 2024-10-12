@@ -22,6 +22,7 @@ with col1:
         )
         strike = st.number_input('Strike: ', min_value=0.01, step=0.01)
         premio = st.number_input('Prêmio: ', min_value=0.01, step=0.01)
+        quantidade = st.number_input('Quantidade: ', min_value=1, step=100, value=100)
         submitted = st.form_submit_button("Adicionar")
         if submitted:
             st.session_state.opcao_info = {
@@ -29,7 +30,8 @@ with col1:
                 'strike': strike, 
                 'premio': premio,
                 'tipo_opcao': tipo_opcao,
-                'operacao': operacao
+                'operacao': operacao, 
+                'quantidade': quantidade
             }
 with col2:
     if submitted:
