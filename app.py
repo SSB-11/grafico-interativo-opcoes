@@ -9,10 +9,8 @@ from opcoes.estrategia import Estrategia
 # st.markdown("<h1 style='text-align: center;'>Gráfico Interativo</h1>", unsafe_allow_html=True)
 st.title("Gráfico Interativo")
 adicionar = st.button("Adicionar Opção")
-if not st.session_state.estrategia:
+if not st.session_state.get('estrategia'):
     st.session_state.estrategia = Estrategia()
-# st.write(st.session_state.opcao)
-# st.write(st.session_state.estrategia.get_opcoes())
 
 @st.dialog("Adicione uma opção")
 def adicionar_opcao():
@@ -39,16 +37,7 @@ def adicionar_opcao():
             if tipo_opcao == 'Call' 
             else Put(strike, premio, operacao, quantidade)
         )
-        # st.session_state.opcao = opcao
         st.session_state.estrategia.adicionar_opcao(opcao)
-        # st.session_state.opcao_info = {
-        #     'opcao': Call(strike, premio, operacao) if tipo_opcao == 'Call' else Put(strike, premio, operacao),
-        #     'strike': strike, 
-        #     'premio': premio,
-        #     'tipo_opcao': tipo_opcao,
-        #     'operacao': operacao, 
-        #     'quantidade': quantidade
-        # }
         # st.session_state.show_graphic = True
         st.rerun()
 
