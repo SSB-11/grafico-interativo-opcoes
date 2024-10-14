@@ -44,8 +44,22 @@ class Opcao(ABC):
             return self.quantidade * (self.premio - self.calcular_preco_vencimento(preco_acao))
 
 
+    def get_data(self):
+        """
+        Retorna os dados da opção em formato de dicionário.
+        """
+        return {
+            'nome': self.nome, 
+            'tipo': self.tipo, 
+            'strike': self.strike, 
+            'premio': self.premio, 
+            'quantidade': self.quantidade, 
+            'operacao': self.operacao,
+        }
+
+
     def __str__(self):
             """
             Retorna uma representação em string da opção.
             """
-            return f"{self.nome} = {self.tipo}, Strike: {self.strike}, Prêmio: {self.premio}, Quantidade: {self.quantidade}, Operação: {self.operacao}"
+            return f'{self.nome} = {self.tipo}, Strike: {self.strike}, Prêmio: {self.premio}, Quantidade: {self.quantidade}, Operação: {self.operacao}'

@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import streamlit as st
 import plotly.graph_objects as go
 
@@ -43,10 +44,16 @@ def adicionar_opcao():
         st.rerun()
 
 
-@st.dialog("Sua estratégia:")
+# @st.dialog("Sua estratégia:")
 def ver_estrategia():
-    for opcao in st.session_state.opcoes:
-        st.write(opcao)
+    opcoes = st.session_state.opcoes
+    if opcoes:
+        df = pd.DataFrame(
+            [opcao.get_data() for opcao in opcoes]
+        ).set_index('nome')
+        st.data_editor(df, num_rows='dynamic')
+    else:
+        st.write('Ainda não há opções em sua estratégia!')
 
 # column1, column2, column3 = st.columns([1, 2, 1])
 col1, col2, col3, col4 = st.columns(4)
