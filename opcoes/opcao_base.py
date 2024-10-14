@@ -2,17 +2,18 @@ from abc import ABC, abstractmethod
 
 
 class Opcao(ABC):
-    def __init__(self, strike: float, premio: float, operacao: str = 'Compra', quantidade: int = 100):
+    def __init__(self, nome: str, strike: float, premio: float, operacao: str = 'Compra', quantidade: int = 100):
         """
         Inicializa uma nova instância da classe Opcao.
         
         Args:
+        nome (str): Nome que identifica a opção.
         strike (float): Preço de exercício (strike).
         premio (float): Prêmio pago ou recebido pela opção.
         operacao (str): `Compra` ou `Venda` da opção (padrão é `Compra`).
         quantidade (int): Quantidade de opções compradas ou vendidas (padrão é 100).
         """
-
+        self.nome = nome
         self.strike = strike
         self.premio = premio
         self.quantidade = quantidade

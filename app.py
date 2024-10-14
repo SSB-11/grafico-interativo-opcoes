@@ -14,6 +14,7 @@ st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
 
 @st.dialog("Adicione uma opção")
 def adicionar_opcao():
+    nome = st.text_input('Identificador: ', value=f'Opção {len(st.session_state.opcoes) + 1}')
     col1, col2 = st.columns(2)
     with col1:
         tipo_opcao = st.radio(
@@ -33,9 +34,9 @@ def adicionar_opcao():
     submitted = st.button("Adicionar")
     if submitted:
         opcao = (
-            Call(strike, premio, operacao, quantidade) 
+            Call(nome, strike, premio, operacao, quantidade) 
             if tipo_opcao == 'Call' 
-            else Put(strike, premio, operacao, quantidade)
+            else Put(nome, strike, premio, operacao, quantidade)
         )
         st.session_state.estrategia.adicionar_opcao(opcao)
         st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
@@ -67,7 +68,7 @@ delta = max_strike - min_strike
 
 x = np.arange(min_strike - delta, max_strike + delta, 0.01)
 if len(opcoes) > 1:
-    y = st.session_state.estrategia.calcular_payoff(x)
+    y = st.session_state.estrategia.calcular_payoff(x).round(2)
     fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Estratégia'))
 
 i = 1
@@ -75,9 +76,9 @@ for opcao in opcoes:
     # x = np.arange(opcao.strike - 2, 14, 0.01)
     y = opcao.calcular_payoff(x)
     if len(opcoes) > 1:
-        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=f'Opcão {i}', visible='legendonly'))
+        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=opcao.nome, visible='legendonly'))
     else:
-        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=f'Opcão {i}'))
+        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=opcao.nome))
 
     i += 1
 
