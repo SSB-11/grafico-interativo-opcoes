@@ -48,4 +48,4 @@ class Opcao(ABC):
             """
             Retorna uma representação em string da opção.
             """
-            return f"Strike: {self.strike}, Prêmio: {self.premio}, Quantidade: {self.quantidade}, Operação: {self.operacao}"
+            return f"{self.nome} = {self.tipo}, Strike: {self.strike}, Prêmio: {self.premio}, Quantidade: {self.quantidade}, Operação: {self.operacao}"

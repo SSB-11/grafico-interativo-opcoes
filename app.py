@@ -42,6 +42,12 @@ def adicionar_opcao():
         st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
         st.rerun()
 
+
+@st.dialog("Sua estratégia:")
+def ver_estrategia():
+    for opcao in st.session_state.opcoes:
+        st.write(opcao)
+
 # column1, column2, column3 = st.columns([1, 2, 1])
 col1, col2, col3, col4 = st.columns(4)
 with col1:
@@ -52,8 +58,11 @@ with col3:
     ver = st.button('Ver Estratégia')
 with col4:
     limpar = st.button('Limpar Gráfico')
+
 if adicionar:
     adicionar_opcao()
+if ver:
+    ver_estrategia()
 if limpar:
     st.session_state.estrategia.limpar_estrategia()
     st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
