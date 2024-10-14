@@ -10,7 +10,7 @@ if not st.session_state.get('estrategia'):
     st.session_state.estrategia = Estrategia()
 
 st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
-
+st.markdown("<h1 style='text-align: center;'>Gráfico Interativo</h1>", unsafe_allow_html=True)
 
 @st.dialog("Adicione uma opção")
 def adicionar_opcao():
@@ -42,15 +42,21 @@ def adicionar_opcao():
         st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
         st.rerun()
 
-column1, column2, column3 = st.columns([1, 2, 1])
-with column1:
-    adicionar = st.button("Adicionar Opção")
-    limpar = st.button("Limpar Gráfico")
-    if adicionar:
-        adicionar_opcao()
-    if limpar:
-        st.session_state.estrategia.limpar_estrategia()
-        st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
+# column1, column2, column3 = st.columns([1, 2, 1])
+col1, col2, col3, col4 = st.columns(4)
+with col1:
+    adicionar = st.button('Adicionar Opção')
+with col2:
+    remover = st.button('Remover Opção')
+with col3:
+    ver = st.button('Ver Estratégia')
+with col4:
+    limpar = st.button('Limpar Gráfico')
+if adicionar:
+    adicionar_opcao()
+if limpar:
+    st.session_state.estrategia.limpar_estrategia()
+    st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
 
 
 fig = go.Figure()
@@ -101,7 +107,6 @@ fig.update_layout(
     template='plotly_dark'
 )
 
-with column2:
+# with column2:
     # st.title("Gráfico Interativo")
-    st.markdown("<h1 style='text-align: center;'>Gráfico Interativo</h1>", unsafe_allow_html=True)
-    st.plotly_chart(fig)
+st.plotly_chart(fig)
