@@ -58,11 +58,11 @@ def ver_estrategia():
 # column1, column2, column3 = st.columns([1, 2, 1])
 col1, col2, col3, col4 = st.columns(4)
 with col1:
-    adicionar = st.button('Adicionar Opção')
-with col2:
-    remover = st.button('Remover Opção')
-with col3:
     ver = st.button('Ver Estratégia')
+with col2:
+    adicionar = st.button('Adicionar Opção')
+with col3:
+    remover = st.button('Remover Opção')
 with col4:
     limpar = st.button('Limpar Gráfico')
 
