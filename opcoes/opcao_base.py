@@ -2,17 +2,18 @@ from abc import ABC, abstractmethod
 
 
 class Opcao(ABC):
-    def __init__(self, strike: float, premio: float, operacao: str = 'Compra', quantidade: int = 100):
+    def __init__(self, nome: str, strike: float, premio: float, operacao: str = 'Compra', quantidade: int = 100):
         """
         Inicializa uma nova instância da classe Opcao.
         
         Args:
+        nome (str): Nome que identifica a opção.
         strike (float): Preço de exercício (strike).
         premio (float): Prêmio pago ou recebido pela opção.
         operacao (str): `Compra` ou `Venda` da opção (padrão é `Compra`).
         quantidade (int): Quantidade de opções compradas ou vendidas (padrão é 100).
         """
-
+        self.nome = nome
         self.strike = strike
         self.premio = premio
         self.quantidade = quantidade
@@ -43,8 +44,29 @@ class Opcao(ABC):
             return self.quantidade * (self.premio - self.calcular_preco_vencimento(preco_acao))
 
 
+    def get_data(self):
+        """
+        Retorna os dados da opção em formato de dicionário.
+        """
+        return {
+            'nome': self.nome, 
+            'tipo': self.tipo, 
+            'strike': self.strike, 
+            'premio': self.premio, 
+            'quantidade': self.quantidade, 
+            'operacao': self.operacao,
+        }
+
+
     def __str__(self):
             """
             Retorna uma representação em string da opção.
             """
-            return f"Strike: {self.strike}, Prêmio: {self.premio}, Quantidade: {self.quantidade}, Operação: {self.operacao}"
+            return f'{self.nome} ({self.tipo}, Strike: {self.strike}, Prêmio: {self.premio}, Quantidade: {self.quantidade}, Operação: {self.operacao})'
+
+
+    def __eq__(self, other):
+        if isinstance(other, Opcao):
+            return self.__dict__ == other.__dict__
+        return False
+        
