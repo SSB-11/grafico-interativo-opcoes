@@ -11,30 +11,6 @@ if not st.session_state.get('estrategia'):
     st.session_state.estrategia = Estrategia()
 
 st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
-
-# Exibir as opções
-# st.header("Opções Disponíveis")
-
-# def teste():
-#     remover = []
-#     for opcao in st.session_state.estrategia.get_opcoes():
-#         dados = opcao.get_data()
-#         col1, col2 = st.columns([3, 1])  # Dividindo a linha em colunas
-
-#         with col1:
-#             st.write(dados)
-#         with col2:
-#             if st.button("Excluir", key=dados["nome"]):  # Botão de excluir
-#                 confirm = st.warning(f"Tem certeza que deseja excluir a opção '{dados['nome']}'?", icon="⚠️")
-#                 if st.button("Confirmar Exclusão", key=f"confirm_{dados['nome']}"):
-#                     remover.append(opcao)  # Remover a opção após confirmação
-#     return remover
-#                     # st.experimental_rerun()  # Rerun a aplicação para atualizar a exibição
-
-# for op in teste():
-#     st.write(st.session_state.estrategia.remover_opcao(op))
-# st.write(st.session_state.estrategia.get_opcoes())
-
 st.markdown("<h1 style='text-align: center;'>Gráfico Interativo</h1>", unsafe_allow_html=True)
 
 @st.dialog("Adicionar uma opção")
@@ -102,7 +78,6 @@ def ver_estrategia():
         st.rerun()
 
 
-# column1, column2, column3 = st.columns([1, 2, 1])
 col1, col2, col3, col4 = st.columns(4)
 with col1:
         ver = st.button('Ver Estratégia') 
@@ -144,7 +119,6 @@ if len(opcoes) > 1:
 
 i = 1
 for opcao in opcoes:
-    # x = np.arange(opcao.strike - 2, 14, 0.01)
     y = opcao.calcular_payoff(x)
     if len(opcoes) > 1:
         fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=opcao.nome, visible='legendonly'))
@@ -172,6 +146,4 @@ fig.update_layout(
     template='plotly_dark'
 )
 
-# with column2:
-    # st.title("Gráfico Interativo")
 st.plotly_chart(fig)
