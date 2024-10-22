@@ -8,12 +8,11 @@ class Estrategia:
 
 
     def remover_opcao(self, opcao):
-        try:
+        if opcao in self._opcoes:
             self._opcoes.remove(opcao)
             return True
-        except ValueError:
-            print("A opção especificada não está na estratégia.")
-            return False
+        print("A opção especificada não está na estratégia.")
+        return False 
 
 
     def get_opcoes(self):

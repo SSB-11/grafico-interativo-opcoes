@@ -37,7 +37,7 @@ st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
 
 st.markdown("<h1 style='text-align: center;'>Gráfico Interativo</h1>", unsafe_allow_html=True)
 
-@st.dialog("Adicione uma opção")
+@st.dialog("Adicionar uma opção")
 def adicionar_opcao():
     nome = st.text_input('Identificador: ', value=f'Opção {len(st.session_state.opcoes) + 1}')
     col1, col2 = st.columns(2)
@@ -65,6 +65,18 @@ def adicionar_opcao():
         )
         st.session_state.estrategia.adicionar_opcao(opcao)
         st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
+        st.rerun()
+
+
+@st.dialog("Remover uma opção")
+def remover_opcao():
+    remover = st.radio(
+        'Opção a remover:',
+        st.session_state.estrategia.get_opcoes()
+    )
+    submitted = st.button("Remover")
+    if submitted:
+        st.session_state.estrategia.remover_opcao(remover)
         st.rerun()
 
 
@@ -105,6 +117,8 @@ if ver:
 if limpar:
     st.session_state.estrategia.limpar_estrategia()
     st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
+if remover:
+    remover_opcao()
 
 
 fig = go.Figure()

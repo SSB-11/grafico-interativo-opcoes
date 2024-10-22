@@ -62,4 +62,11 @@ class Opcao(ABC):
             """
             Retorna uma representação em string da opção.
             """
-            return f'{self.nome} = {self.tipo}, Strike: {self.strike}, Prêmio: {self.premio}, Quantidade: {self.quantidade}, Operação: {self.operacao}'
+            return f'{self.nome} ({self.tipo}, Strike: {self.strike}, Prêmio: {self.premio}, Quantidade: {self.quantidade}, Operação: {self.operacao})'
+
+
+    def __eq__(self, other):
+        if isinstance(other, Opcao):
+            return self.__dict__ == other.__dict__
+        return False
+        
