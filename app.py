@@ -70,9 +70,12 @@ def adicionar_opcao():
 
 @st.dialog("Remover uma opção")
 def remover_opcao():
+    opcoes = st.session_state.estrategia.get_opcoes()
+    if opcoes:
+        st.warning(f'A exclusão não poderá ser desfeita.', icon='⚠️')
     remover = st.radio(
         'Opção a remover:',
-        st.session_state.estrategia.get_opcoes()
+        opcoes
     )
     submitted = st.button("Remover")
     if submitted:
