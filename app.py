@@ -11,6 +11,30 @@ if not st.session_state.get('estrategia'):
     st.session_state.estrategia = Estrategia()
 
 st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
+
+# Exibir as opções
+# st.header("Opções Disponíveis")
+
+# def teste():
+#     remover = []
+#     for opcao in st.session_state.estrategia.get_opcoes():
+#         dados = opcao.get_data()
+#         col1, col2 = st.columns([3, 1])  # Dividindo a linha em colunas
+
+#         with col1:
+#             st.write(dados)
+#         with col2:
+#             if st.button("Excluir", key=dados["nome"]):  # Botão de excluir
+#                 confirm = st.warning(f"Tem certeza que deseja excluir a opção '{dados['nome']}'?", icon="⚠️")
+#                 if st.button("Confirmar Exclusão", key=f"confirm_{dados['nome']}"):
+#                     remover.append(opcao)  # Remover a opção após confirmação
+#     return remover
+#                     # st.experimental_rerun()  # Rerun a aplicação para atualizar a exibição
+
+# for op in teste():
+#     st.write(st.session_state.estrategia.remover_opcao(op))
+# st.write(st.session_state.estrategia.get_opcoes())
+
 st.markdown("<h1 style='text-align: center;'>Gráfico Interativo</h1>", unsafe_allow_html=True)
 
 @st.dialog("Adicione uma opção")
@@ -46,19 +70,27 @@ def adicionar_opcao():
 
 # @st.dialog("Sua estratégia:")
 def ver_estrategia():
-    opcoes = st.session_state.opcoes
-    if opcoes:
-        df = pd.DataFrame(
-            [opcao.get_data() for opcao in opcoes]
-        ).set_index('nome')
-        st.data_editor(df, num_rows='dynamic')
+    if not st.session_state.get('view_strategy'):
+        st.session_state.view_strategy = True
+        opcoes = st.session_state.opcoes
+        if opcoes:
+            df = pd.DataFrame(
+                [opcao.get_data() for opcao in opcoes]
+            ).set_index('nome')
+            # st.data_editor(df, num_rows='dynamic')
+            st.table(df)
+        else:
+            st.write('Ainda não há opções em sua estratégia!')
     else:
-        st.write('Ainda não há opções em sua estratégia!')
+        st.session_state.view_strategy = False
+        st.write(st.session_state.view_strategy)
+        st.rerun()
+
 
 # column1, column2, column3 = st.columns([1, 2, 1])
 col1, col2, col3, col4 = st.columns(4)
 with col1:
-    ver = st.button('Ver Estratégia')
+        ver = st.button('Ver Estratégia') 
 with col2:
     adicionar = st.button('Adicionar Opção')
 with col3:
