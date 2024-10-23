@@ -67,7 +67,7 @@ class Opcao(ABC):
             """
             Retorna uma representação em string da opção.
             """
-            return f'{self.nome} ({self.tipo}, Strike: {self.strike}, Prêmio: {self.premio}, Qtd: {self.quantidade}, {self.operacao})'
+            return f'{self.nome}'
 
 
     def __eq__(self, other):

@@ -48,12 +48,12 @@ def adicionar_opcao():
 def remover_opcao():
     opcoes = st.session_state.estrategia.get_opcoes()
     if opcoes:
-        st.error(f'A exclusão não poderá ser desfeita.', icon='🚨')
         remover = st.radio(
             'Opção a remover:',
-            [opcao.nome for opcao in opcoes],
+            opcoes,
             captions=[opcao.descrever() for opcao in opcoes]
         )
+        st.error(f'A exclusão não poderá ser desfeita.', icon='🚨')
         confirmar = st.button('Confirmar')
         if confirmar:
             st.session_state.estrategia.remover_opcao(remover)
