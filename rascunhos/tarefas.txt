@@ -2,6 +2,7 @@ Tarefas e Anotações
 
 -OK botão 'Excluir Opção'
 - botão de confirmação para limpar o gráfico
+- em vez de deletar uma opção, deletar várias de uma vez? checkbox em vez de radio button + alterar código em estrategia.py para inserir um loop
 - métricas (percentual ganho, ganho por opção, etc - olhar minha análise .ipynb)
     - https://docs.streamlit.io/develop/api-reference/data/st.metric
 - pedir feedback
