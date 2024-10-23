@@ -9,9 +9,10 @@ from opcoes.estrategia import Estrategia
 
 if not st.session_state.get('estrategia'):
     st.session_state.estrategia = Estrategia()
-
 st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
+
 st.markdown("<h1 style='text-align: center;'>Gráfico de Opções</h1>", unsafe_allow_html=True)
+
 
 @st.dialog("Adicionar uma opção")
 def adicionar_opcao():
@@ -65,28 +66,21 @@ def remover_opcao():
             st.rerun()
 
 
-# @st.dialog("Sua estratégia:")
 def ver_estrategia():
-    if not st.session_state.get('view_strategy'):
-        st.session_state.view_strategy = True
-        opcoes = st.session_state.opcoes
-        if opcoes:
-            df = pd.DataFrame(
-                [opcao.get_data() for opcao in opcoes]
-            ).set_index('nome')
-            # st.data_editor(df, num_rows='dynamic')
-            st.table(df)
-        else:
-            st.write('Ainda não há opções em sua estratégia!')
+    opcoes = st.session_state.opcoes
+    if opcoes:
+        df = pd.DataFrame(
+            [opcao.get_data() for opcao in opcoes]
+        ).set_index('nome')
+        # st.data_editor(df, num_rows='dynamic')
+        st.dataframe(df, use_container_width=True)
     else:
-        st.session_state.view_strategy = False
-        st.write(st.session_state.view_strategy)
-        st.rerun()
+        st.info(f'Ainda não há opções adicionadas!', icon='💡')
 
 
 col1, col2, col3, col4 = st.columns(4)
 with col1:
-        ver = st.button('Ver Estratégia') 
+    ver = st.toggle('Ver Tabela', value=True) 
 with col2:
     adicionar = st.button('Adicionar Opção')
 with col3:
@@ -96,13 +90,13 @@ with col4:
 
 if adicionar:
     adicionar_opcao()
-if ver:
-    ver_estrategia()
 if limpar:
     st.session_state.estrategia.limpar_estrategia()
     st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
 if remover:
     remover_opcao()
+if ver:
+    ver_estrategia()
 
 
 fig = go.Figure()
@@ -169,6 +163,7 @@ if ganho_maximo == 0 or investido == 0:
 else:
     col3.metric('Ganho Máximo (R$)', f'{ganho_maximo}', f'{ganho_maximo/abs(investido):.2%}')
 if perda_maxima != 0:
-    col4.metric('Ganho/Perda', f'{abs(ganho_maximo)/abs(perda_maxima):.1f}')
+    ganho_perda = abs(ganho_maximo)/abs(perda_maxima)
+    col4.metric('Ganho/Perda', f'{ganho_perda:.1f}x', f'{ganho_perda:.2%}')
 else:
     col4.metric('Ganho/Perda', '0')
