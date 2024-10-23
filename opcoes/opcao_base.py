@@ -40,9 +40,9 @@ class Opcao(ABC):
         """
         preco_acao = np.array(preco_acao)
         if self.operacao == 'Compra':
-            return self.quantidade * (self.calcular_preco_vencimento(preco_acao) - self.premio)
+            return self.quantidade * (self.calcular_preco_vencimento(preco_acao) - self.premio).round(2)
         if self.operacao == 'Venda':
-            return self.quantidade * (self.premio - self.calcular_preco_vencimento(preco_acao))
+            return self.quantidade * (self.premio - self.calcular_preco_vencimento(preco_acao)).round(2)
 
 
     def get_data(self):
