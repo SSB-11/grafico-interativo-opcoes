@@ -18,16 +18,16 @@ def adicionar_opcao():
     nome = st.text_input('Identificador: ', value=f'Opção {len(st.session_state.opcoes) + 1}')
     col1, col2 = st.columns(2)
     with col1:
-        tipo_opcao = st.radio(
-            'Tipo de opção:',
-            ['Call', 'Put'],
-            captions=['Opção de Compra', 'Opção de Venda']
-        )
-    with col2:
         operacao = st.radio(
             'Tipo de operação:',
             ['Compra', 'Venda'],
             captions=['Compra de Opção', 'Venda de Opção']
+        )
+    with col2:
+        tipo_opcao = st.radio(
+            'Tipo de opção:',
+            ['Call', 'Put'],
+            captions=['Opção de Compra', 'Opção de Venda']
         )
     strike = st.number_input('Strike: ', min_value=0.01, step=0.01)
     premio = st.number_input('Prêmio: ', min_value=0.01, step=0.01)
@@ -123,8 +123,7 @@ for opcao in opcoes:
     if len(opcoes) > 1:
         fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=opcao.nome, visible='legendonly'))
     else:
-        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=opcao.nome))
-
+        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=opcao.nome)) # is this even necessary??????
     i += 1
 
 fig.update_yaxes(tickformat=".2f")
@@ -147,3 +146,7 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig)
+
+col1, col2, col3 = st.columns(3)
+col1.metric("Custo", st.session_state.estrategia.calcular_custo())
+col2.metric("Perda Máxima", st.session_state.estrategia.calcular_perda_maxima())
