@@ -32,14 +32,14 @@ class Estrategia:
         return payoff
 
 
-    def calcular_custo(self):
-        custo = 0
+    def calcular_investimento(self):
+        investimento = 0
         for opcao in self.get_opcoes():
             if opcao.operacao == 'Compra':
-                custo += (opcao.premio * opcao.quantidade)
+                investimento -= (opcao.premio * opcao.quantidade)
             else:
-                custo -= (opcao.premio * opcao.quantidade)
-        return custo
+                investimento += (opcao.premio * opcao.quantidade)
+        return investimento
 
     
     def calcular_perda_maxima(self, preco_acao):

@@ -148,6 +148,6 @@ fig.update_layout(
 st.plotly_chart(fig)
 
 col1, col2, col3 = st.columns(3)
-col1.metric("Investido/Recebido", st.session_state.estrategia.calcular_custo()) #???
+col1.metric("Investido/Recebido", st.session_state.estrategia.calcular_investimento()) #???
 col2.metric("Perda Máxima", st.session_state.estrategia.calcular_perda_maxima(x))
 col3.metric("Ganho Máximo", st.session_state.estrategia.calcular_ganho_maximo(x))
