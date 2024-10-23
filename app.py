@@ -11,10 +11,10 @@ if not st.session_state.get('estrategia'):
     st.session_state.estrategia = Estrategia()
 st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
 
-st.markdown("<h1 style='text-align: center;'>Gráfico de Opções</h1>", unsafe_allow_html=True)
+st.markdown('<h1 style="text-align: center;">Gráfico de Opções</h1>', unsafe_allow_html=True)
 
 
-@st.dialog("Adicionar uma opção")
+@st.dialog('Adicionar uma opção')
 def adicionar_opcao():
     nome = st.text_input('Identificador: ', value=f'Opção {len(st.session_state.opcoes) + 1}')
     col1, col2 = st.columns(2)
@@ -33,7 +33,7 @@ def adicionar_opcao():
     strike = st.number_input('Strike: ', min_value=0.01, step=0.01)
     premio = st.number_input('Prêmio: ', min_value=0.01, step=0.01)
     quantidade = st.number_input('Quantidade: ', min_value=1, step=100, value=100)
-    submitted = st.button("Adicionar")
+    submitted = st.button('Adicionar')
     if submitted:
         opcao = (
             Call(nome, strike, premio, operacao, quantidade) 
@@ -45,7 +45,7 @@ def adicionar_opcao():
         st.rerun()
 
 
-@st.dialog("Remover uma opção")
+@st.dialog('Remover uma opção')
 def remover_opcao():
     opcoes = st.session_state.estrategia.get_opcoes()
     if opcoes:
@@ -64,6 +64,19 @@ def remover_opcao():
         voltar = st.button('Voltar')
         if voltar:
             st.rerun()
+
+
+@st.dialog('Confirmação')
+def confirmar_limpeza():
+    st.error(f'Tem certeza? Todas as opções serão excluídas.', icon='🚨')
+    col1, col2 = st.columns(2)
+    if col1.button('Confirmar', use_container_width=True):
+        st.session_state.estrategia.limpar_estrategia()
+        st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
+        st.rerun()
+    if col2.button('Cancelar', use_container_width=True):
+        st.rerun()
+
 
 
 def ver_estrategia():
@@ -91,8 +104,7 @@ with col4:
 if adicionar:
     adicionar_opcao()
 if limpar:
-    st.session_state.estrategia.limpar_estrategia()
-    st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
+    confirmar_limpeza()
 if remover:
     remover_opcao()
 if ver:
@@ -127,8 +139,8 @@ for opcao in opcoes:
         fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=opcao.nome)) # is this even necessary??????
     i += 1
 
-fig.update_yaxes(tickformat=".2f")
-fig.update_xaxes(tickformat=".2f")
+fig.update_yaxes(tickformat='.2f')
+fig.update_xaxes(tickformat='.2f')
 
 fig.update_layout(
     title={
@@ -153,7 +165,7 @@ fig.update_layout(
 st.plotly_chart(fig)
 
 
-st.subheader("Métricas", divider='gray')
+st.subheader('Métricas', divider='gray')
 col1, col2, col3, col4 = st.columns(4)
 investido = st.session_state.estrategia.calcular_investimento()
 perda_maxima = st.session_state.estrategia.calcular_perda_maxima(x)
