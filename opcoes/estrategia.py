@@ -1,3 +1,5 @@
+import numpy as np
+
 class Estrategia:
     def __init__(self):
         self._opcoes = []
@@ -34,7 +36,11 @@ class Estrategia:
         custo = 0
         for opcao in self.get_opcoes():
             if opcao.operacao == 'Compra':
-                custo += opcao.premio
+                custo += (opcao.premio * opcao.quantidade)
             else:
-                custo -= opcao.premio
+                custo -= (opcao.premio * opcao.quantidade)
         return custo
+
+    
+    def calcular_perda_maxima(self):
+        return np.min(self.calcular_payoff([0, np.inf]))
