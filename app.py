@@ -79,14 +79,14 @@ def ver_estrategia():
 
 
 col1, col2, col3, col4 = st.columns(4)
-with col1:
-    ver = st.toggle('Ver Tabela', value=True) 
-with col2:
-    adicionar = st.button('Adicionar Opção')
-with col3:
-    remover = st.button('Remover Opção')
 with col4:
-    limpar = st.button('Limpar Gráfico')
+    ver = st.toggle('Ver Tabela', value=True) 
+with col1:
+    adicionar = st.button('Adicionar Opção', use_container_width=True)
+with col2:
+    remover = st.button('Remover Opção', use_container_width=True)
+with col3:
+    limpar = st.button('Limpar Gráfico', use_container_width=True)
 
 if adicionar:
     adicionar_opcao()
@@ -148,22 +148,23 @@ fig.update_layout(
 st.plotly_chart(fig)
 
 
-col1, col2, col3, col4 = st.columns(4)
-investido = st.session_state.estrategia.calcular_investimento()
-perda_maxima = st.session_state.estrategia.calcular_perda_maxima(x)
-ganho_maximo = st.session_state.estrategia.calcular_ganho_maximo(x)
+with st.expander('Métricas', icon="📈"):
+    col1, col2, col3, col4 = st.columns(4)
+    investido = st.session_state.estrategia.calcular_investimento()
+    perda_maxima = st.session_state.estrategia.calcular_perda_maxima(x)
+    ganho_maximo = st.session_state.estrategia.calcular_ganho_maximo(x)
 
-col1.metric('Investido (R$)', f'{investido}') #???
-if perda_maxima == 0 or investido == 0:
-    col2.metric('Perda Máxima (R$)', f'{perda_maxima}')
-else:
-    col2.metric('Perda Máxima (R$)', f'{perda_maxima}', f'{perda_maxima/abs(investido):.2%}')
-if ganho_maximo == 0 or investido == 0:
-    col3.metric('Ganho Máximo (R$)', f'{ganho_maximo}')
-else:
-    col3.metric('Ganho Máximo (R$)', f'{ganho_maximo}', f'{ganho_maximo/abs(investido):.2%}')
-if perda_maxima != 0:
-    ganho_perda = abs(ganho_maximo)/abs(perda_maxima)
-    col4.metric('Ganho/Perda', f'{ganho_perda:.1f}x', f'{ganho_perda:.2%}')
-else:
-    col4.metric('Ganho/Perda', '0')
+    col1.metric('Investido (R$)', f'{investido}') #???
+    if perda_maxima == 0 or investido == 0:
+        col2.metric('Perda Máxima (R$)', f'{perda_maxima}')
+    else:
+        col2.metric('Perda Máxima (R$)', f'{perda_maxima}', f'{perda_maxima/abs(investido):.2%}')
+    if ganho_maximo == 0 or investido == 0:
+        col3.metric('Ganho Máximo (R$)', f'{ganho_maximo}')
+    else:
+        col3.metric('Ganho Máximo (R$)', f'{ganho_maximo}', f'{ganho_maximo/abs(investido):.2%}')
+    if perda_maxima != 0:
+        ganho_perda = abs(ganho_maximo)/abs(perda_maxima)
+        col4.metric('Ganho/Perda', f'{ganho_perda:.1f}x', f'{ganho_perda:.2%}')
+    else:
+        col4.metric('Ganho/Perda', '0')
