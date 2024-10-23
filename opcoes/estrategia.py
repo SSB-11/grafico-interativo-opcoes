@@ -44,3 +44,7 @@ class Estrategia:
     
     def calcular_perda_maxima(self, preco_acao):
         return np.min(self.calcular_payoff(preco_acao))
+
+    
+    def calcular_ganho_maximo(self, preco_acao):
+        return np.max(self.calcular_payoff(preco_acao))
