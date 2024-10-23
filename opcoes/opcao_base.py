@@ -1,5 +1,5 @@
+import numpy as np
 from abc import ABC, abstractmethod
-
 
 class Opcao(ABC):
     def __init__(self, nome: str, strike: float, premio: float, operacao: str = 'Compra', quantidade: int = 100):
@@ -38,6 +38,7 @@ class Opcao(ABC):
         - Quando uma opção é comprada, paga-se um prêmio.
         - Quando uma opção é vendida, recebe-se um prêmio.
         """
+        preco_acao = np.array(preco_acao)
         if self.operacao == 'Compra':
             return self.quantidade * (self.calcular_preco_vencimento(preco_acao) - self.premio)
         if self.operacao == 'Venda':
