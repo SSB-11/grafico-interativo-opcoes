@@ -148,23 +148,23 @@ fig.update_layout(
 st.plotly_chart(fig)
 
 
-with st.expander('Métricas', icon="📈"):
-    col1, col2, col3, col4 = st.columns(4)
-    investido = st.session_state.estrategia.calcular_investimento()
-    perda_maxima = st.session_state.estrategia.calcular_perda_maxima(x)
-    ganho_maximo = st.session_state.estrategia.calcular_ganho_maximo(x)
+st.header("Métricas", divider='gray')
+col1, col2, col3, col4 = st.columns(4)
+investido = st.session_state.estrategia.calcular_investimento()
+perda_maxima = st.session_state.estrategia.calcular_perda_maxima(x)
+ganho_maximo = st.session_state.estrategia.calcular_ganho_maximo(x)
 
-    col1.metric('Investido (R$)', f'{investido}') #???
-    if perda_maxima == 0 or investido == 0:
-        col2.metric('Perda Máxima (R$)', f'{perda_maxima}')
-    else:
-        col2.metric('Perda Máxima (R$)', f'{perda_maxima}', f'{perda_maxima/abs(investido):.2%}')
-    if ganho_maximo == 0 or investido == 0:
-        col3.metric('Ganho Máximo (R$)', f'{ganho_maximo}')
-    else:
-        col3.metric('Ganho Máximo (R$)', f'{ganho_maximo}', f'{ganho_maximo/abs(investido):.2%}')
-    if perda_maxima != 0:
-        ganho_perda = abs(ganho_maximo)/abs(perda_maxima)
-        col4.metric('Ganho/Perda', f'{ganho_perda:.1f}x', f'{ganho_perda:.2%}')
-    else:
-        col4.metric('Ganho/Perda', '0')
+col1.metric('Investido (R$)', f'{investido}') #???
+if perda_maxima == 0 or investido == 0:
+    col2.metric('Perda Máxima (R$)', f'{perda_maxima}')
+else:
+    col2.metric('Perda Máxima (R$)', f'{perda_maxima}', f'{perda_maxima/abs(investido):.2%}')
+if ganho_maximo == 0 or investido == 0:
+    col3.metric('Ganho Máximo (R$)', f'{ganho_maximo}')
+else:
+    col3.metric('Ganho Máximo (R$)', f'{ganho_maximo}', f'{ganho_maximo/abs(investido):.2%}')
+if perda_maxima != 0:
+    ganho_perda = abs(ganho_maximo)/abs(perda_maxima)
+    col4.metric('Ganho/Perda', f'{ganho_perda:.1f}x', f'{ganho_perda:.2%}')
+else:
+    col4.metric('Ganho/Perda', '0')
