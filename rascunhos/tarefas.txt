@@ -1,6 +1,7 @@
 Tarefas e Anotações
 
 -OK botão 'Excluir Opção'
+- botão de confirmação para limpar o gráfico
 - métricas (percentual ganho, ganho por opção, etc - olhar minha análise .ipynb)
     - https://docs.streamlit.io/develop/api-reference/data/st.metric
 - pedir feedback
