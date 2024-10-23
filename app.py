@@ -33,8 +33,11 @@ def adicionar_opcao():
     strike = st.number_input('Strike: ', min_value=0.01, step=0.01)
     premio = st.number_input('Prêmio: ', min_value=0.01, step=0.01)
     quantidade = st.number_input('Quantidade: ', min_value=1, step=100, value=100)
-    submitted = st.button('Adicionar')
-    if submitted:
+    
+    col1, col2 = st.columns(2)
+    adicionar = col1.button('Adicionar', use_container_width=True)
+    cancelar = col2.button('Cancelar', use_container_width=True)
+    if adicionar:
         opcao = (
             Call(nome, strike, premio, operacao, quantidade) 
             if tipo_opcao == 'Call' 
@@ -43,6 +46,9 @@ def adicionar_opcao():
         st.session_state.estrategia.adicionar_opcao(opcao)
         st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
         st.rerun()
+    if cancelar:
+        st.rerun()
+    
 
 
 @st.dialog('Remover uma opção')
@@ -55,14 +61,18 @@ def remover_opcao():
             captions=[opcao.descrever() for opcao in opcoes]
         )
         st.error(f'A exclusão não poderá ser desfeita.', icon='🚨')
-        confirmar = st.button('Confirmar')
+        col1, col2 = st.columns(2)
+        confirmar = col1.button('Remover', use_container_width=True)
+        cancelar = col2.button('Cancelar', use_container_width=True)
         if confirmar:
             st.session_state.estrategia.remover_opcao(remover)
             st.rerun()
+        if cancelar:
+            st.rerun()
     else:
         st.warning(f'Adicione uma opção antes de removê-la.', icon='⚠️')
-        voltar = st.button('Voltar')
-        if voltar:
+        fechar = st.button('Fechar', use_container_width=True)
+        if fechar:
             st.rerun()
 
 
@@ -76,7 +86,6 @@ def confirmar_limpeza():
         st.rerun()
     if col2.button('Cancelar', use_container_width=True):
         st.rerun()
-
 
 
 def ver_estrategia():
