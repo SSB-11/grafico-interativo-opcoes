@@ -1,6 +1,6 @@
 Tarefas e Anotações
 
-- botão 'Excluir Opção'
+-OK botão 'Excluir Opção'
 - métricas (percentual ganho, ganho por opção, etc - olhar minha análise .ipynb)
     - https://docs.streamlit.io/develop/api-reference/data/st.metric
 - pedir feedback
@@ -14,3 +14,13 @@ Tarefas e Anotações
 
 API Reference:
 https://docs.streamlit.io/develop/api-reference
+
+
+Ideias de métricas:
+-X custo da estratégia por opção
+-V valor total investido (gasto) na estratégia 
+-? valor nocional de compra e venda 
+-V perda máxima (valor total e porcentagem do valor investido) -> intervalo de valores (pode ser infinito, pode ser quando ATIVO < VALOR, etc) 
+-V ganho máximo (...) -> ...  
+-V ponto(s) de equilíbrio (break-even)  
+-? botão que mostra o gráfico com mais detalhes, tipo linha de break-even (olhar análise de trava de alta para exemplos), com matplotlib ou plotly
