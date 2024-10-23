@@ -79,14 +79,14 @@ def ver_estrategia():
 
 
 col1, col2, col3, col4 = st.columns(4)
-with col4:
-    ver = st.toggle('Ver Tabela', value=True) 
 with col1:
     adicionar = st.button('Adicionar Opção', use_container_width=True)
 with col2:
     remover = st.button('Remover Opção', use_container_width=True)
 with col3:
     limpar = st.button('Limpar Gráfico', use_container_width=True)
+with col4:
+    ver = st.toggle('Ver Tabela', value=True) 
 
 if adicionar:
     adicionar_opcao()
@@ -96,6 +96,7 @@ if limpar:
 if remover:
     remover_opcao()
 if ver:
+    st.subheader('Opções', divider='gray')
     ver_estrategia()
 
 
@@ -133,7 +134,10 @@ fig.update_layout(
     title={
         'text': 'Resultado no Vencimento',
         'x': 0.5,
-        'xanchor': 'center'
+        'xanchor': 'center',
+        'font': {
+            'size': 18
+        }
     },
     # xaxis={
     #     'range': [min_strike - delta, max_strike + delta]
@@ -145,10 +149,11 @@ fig.update_layout(
     template='plotly_dark'
 )
 
+
 st.plotly_chart(fig)
 
 
-st.header("Métricas", divider='gray')
+st.subheader("Métricas", divider='gray')
 col1, col2, col3, col4 = st.columns(4)
 investido = st.session_state.estrategia.calcular_investimento()
 perda_maxima = st.session_state.estrategia.calcular_perda_maxima(x)
