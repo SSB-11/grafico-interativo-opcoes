@@ -51,7 +51,8 @@ def remover_opcao():
         st.error(f'A exclusão não poderá ser desfeita.', icon='🚨')
         remover = st.radio(
             'Opção a remover:',
-            opcoes
+            [opcao.nome for opcao in opcoes],
+            captions=[opcao.descrever() for opcao in opcoes]
         )
         confirmar = st.button('Confirmar')
         if confirmar:

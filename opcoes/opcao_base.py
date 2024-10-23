@@ -59,11 +59,15 @@ class Opcao(ABC):
         }
 
 
+    def descrever(self):
+        return f'({self.tipo}, Strike: {self.strike}, Prêmio: {self.premio}, Qtd: {self.quantidade}, {self.operacao})'
+
+
     def __str__(self):
             """
             Retorna uma representação em string da opção.
             """
-            return f'{self.nome} ({self.tipo}, Strike: {self.strike}, Prêmio: {self.premio}, Quantidade: {self.quantidade}, Operação: {self.operacao})'
+            return f'{self.nome} ({self.tipo}, Strike: {self.strike}, Prêmio: {self.premio}, Qtd: {self.quantidade}, {self.operacao})'
 
 
     def __eq__(self, other):
