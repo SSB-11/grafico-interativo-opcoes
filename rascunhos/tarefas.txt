@@ -1,0 +1,28 @@
+Tarefas e Anotações
+
+-OK botão 'Excluir Opção'
+- botão de confirmação para limpar o gráfico
+- em vez de deletar uma opção, deletar várias de uma vez? checkbox em vez de radio button + alterar código em estrategia.py para inserir um loop
+- métricas (percentual ganho, ganho por opção, etc - olhar minha análise .ipynb)
+    - https://docs.streamlit.io/develop/api-reference/data/st.metric
+- pedir feedback
+
+-? uma sessão de análises abaixo da página, em forma de texto?
+-? botão 'Editar Opção'?
+-? botão para selecionar o range de preços a serem calculados, caso a pessoa não esteja satisfeita com o default?
+-? decidir onde ficarão os botões (sidebar? form? modal dialog?)
+-? possibilidade de montar várias estratégias e compará-las?
+
+
+API Reference:
+https://docs.streamlit.io/develop/api-reference
+
+
+Ideias de métricas:
+-X custo da estratégia por opção
+-V valor total investido (gasto) na estratégia 
+-? valor nocional de compra e venda 
+-V perda máxima (valor total e porcentagem do valor investido) -> intervalo de valores (pode ser infinito, pode ser quando ATIVO < VALOR, etc) 
+-V ganho máximo (...) -> ...  
+-V ponto(s) de equilíbrio (break-even)  
+-? botão que mostra o gráfico com mais detalhes, tipo linha de break-even (olhar análise de trava de alta para exemplos), com matplotlib ou plotly

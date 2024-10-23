@@ -22,7 +22,7 @@ class Call(Opcao):
         Args:
         preco_acao (np.array): Preço da ação no vencimento.
         """
-        return np.maximum(preco_acao - self.strike, 0)
+        return np.maximum(preco_acao - self.strike, 0).round(2)
 
 
 class Put(Opcao):
@@ -33,5 +33,5 @@ class Put(Opcao):
         O valor da opção de venda no vencimento é `strike_opcao - preco_acao`.
         - Se a ação sobe, a opção cai (inversamente proporcional).
         """
-        return np.maximum(self.strike - preco_acao, 0)
+        return np.maximum(self.strike - preco_acao, 0).round(2)
 

@@ -1,5 +1,5 @@
+import numpy as np
 from abc import ABC, abstractmethod
-
 
 class Opcao(ABC):
     def __init__(self, nome: str, strike: float, premio: float, operacao: str = 'Compra', quantidade: int = 100):
@@ -38,10 +38,11 @@ class Opcao(ABC):
         - Quando uma opção é comprada, paga-se um prêmio.
         - Quando uma opção é vendida, recebe-se um prêmio.
         """
+        preco_acao = np.array(preco_acao)
         if self.operacao == 'Compra':
-            return self.quantidade * (self.calcular_preco_vencimento(preco_acao) - self.premio)
+            return self.quantidade * (self.calcular_preco_vencimento(preco_acao) - self.premio).round(2)
         if self.operacao == 'Venda':
-            return self.quantidade * (self.premio - self.calcular_preco_vencimento(preco_acao))
+            return self.quantidade * (self.premio - self.calcular_preco_vencimento(preco_acao)).round(2)
 
 
     def get_data(self):
@@ -58,11 +59,15 @@ class Opcao(ABC):
         }
 
 
+    def descrever(self):
+        return f'({self.tipo}, Strike: {self.strike}, Prêmio: {self.premio}, Qtd: {self.quantidade}, {self.operacao})'
+
+
     def __str__(self):
             """
             Retorna uma representação em string da opção.
             """
-            return f'{self.nome} ({self.tipo}, Strike: {self.strike}, Prêmio: {self.premio}, Quantidade: {self.quantidade}, Operação: {self.operacao})'
+            return f'{self.nome}'
 
 
     def __eq__(self, other):

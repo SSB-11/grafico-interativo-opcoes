@@ -18,16 +18,16 @@ def adicionar_opcao():
     nome = st.text_input('Identificador: ', value=f'Opção {len(st.session_state.opcoes) + 1}')
     col1, col2 = st.columns(2)
     with col1:
-        tipo_opcao = st.radio(
-            'Tipo de opção:',
-            ['Call', 'Put'],
-            captions=['Opção de Compra', 'Opção de Venda']
-        )
-    with col2:
         operacao = st.radio(
             'Tipo de operação:',
             ['Compra', 'Venda'],
             captions=['Compra de Opção', 'Venda de Opção']
+        )
+    with col2:
+        tipo_opcao = st.radio(
+            'Tipo de opção:',
+            ['Call', 'Put'],
+            captions=['Opção de Compra', 'Opção de Venda']
         )
     strike = st.number_input('Strike: ', min_value=0.01, step=0.01)
     premio = st.number_input('Prêmio: ', min_value=0.01, step=0.01)
@@ -48,15 +48,21 @@ def adicionar_opcao():
 def remover_opcao():
     opcoes = st.session_state.estrategia.get_opcoes()
     if opcoes:
-        st.warning(f'A exclusão não poderá ser desfeita.', icon='⚠️')
-    remover = st.radio(
-        'Opção a remover:',
-        opcoes
-    )
-    submitted = st.button("Remover")
-    if submitted:
-        st.session_state.estrategia.remover_opcao(remover)
-        st.rerun()
+        remover = st.radio(
+            'Opção a remover:',
+            opcoes,
+            captions=[opcao.descrever() for opcao in opcoes]
+        )
+        st.error(f'A exclusão não poderá ser desfeita.', icon='🚨')
+        confirmar = st.button('Confirmar')
+        if confirmar:
+            st.session_state.estrategia.remover_opcao(remover)
+            st.rerun()
+    else:
+        st.warning(f'Adicione uma opção antes de removê-la.', icon='⚠️')
+        voltar = st.button('Voltar')
+        if voltar:
+            st.rerun()
 
 
 # @st.dialog("Sua estratégia:")
@@ -123,8 +129,7 @@ for opcao in opcoes:
     if len(opcoes) > 1:
         fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=opcao.nome, visible='legendonly'))
     else:
-        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=opcao.nome))
-
+        fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=opcao.nome)) # is this even necessary??????
     i += 1
 
 fig.update_yaxes(tickformat=".2f")
@@ -147,3 +152,23 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig)
+
+
+col1, col2, col3, col4 = st.columns(4)
+investido = st.session_state.estrategia.calcular_investimento()
+perda_maxima = st.session_state.estrategia.calcular_perda_maxima(x)
+ganho_maximo = st.session_state.estrategia.calcular_ganho_maximo(x)
+
+col1.metric('Investido (R$)', f'{investido}') #???
+if perda_maxima == 0 or investido == 0:
+    col2.metric('Perda Máxima (R$)', f'{perda_maxima}')
+else:
+    col2.metric('Perda Máxima (R$)', f'{perda_maxima}', f'{perda_maxima/abs(investido):.2%}')
+if ganho_maximo == 0 or investido == 0:
+    col3.metric('Ganho Máximo (R$)', f'{ganho_maximo}')
+else:
+    col3.metric('Ganho Máximo (R$)', f'{ganho_maximo}', f'{ganho_maximo/abs(investido):.2%}')
+if perda_maxima != 0:
+    col4.metric('Ganho/Perda', f'{abs(ganho_maximo)/abs(perda_maxima):.1f}')
+else:
+    col4.metric('Ganho/Perda', '0')
