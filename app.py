@@ -9,11 +9,12 @@ from opcoes.estrategia import Estrategia
 
 if not st.session_state.get('estrategia'):
     st.session_state.estrategia = Estrategia()
-
 st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
-st.markdown("<h1 style='text-align: center;'>Gráfico de Opções</h1>", unsafe_allow_html=True)
 
-@st.dialog("Adicionar uma opção")
+st.markdown('<h1 style="text-align: center;">Gráfico de Opções</h1>', unsafe_allow_html=True)
+
+
+@st.dialog('Adicionar uma opção')
 def adicionar_opcao():
     nome = st.text_input('Identificador: ', value=f'Opção {len(st.session_state.opcoes) + 1}')
     col1, col2 = st.columns(2)
@@ -32,8 +33,11 @@ def adicionar_opcao():
     strike = st.number_input('Strike: ', min_value=0.01, step=0.01)
     premio = st.number_input('Prêmio: ', min_value=0.01, step=0.01)
     quantidade = st.number_input('Quantidade: ', min_value=1, step=100, value=100)
-    submitted = st.button("Adicionar")
-    if submitted:
+    
+    col1, col2 = st.columns(2)
+    adicionar = col1.button('Adicionar', use_container_width=True)
+    cancelar = col2.button('Cancelar', use_container_width=True)
+    if adicionar:
         opcao = (
             Call(nome, strike, premio, operacao, quantidade) 
             if tipo_opcao == 'Call' 
@@ -42,9 +46,12 @@ def adicionar_opcao():
         st.session_state.estrategia.adicionar_opcao(opcao)
         st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
         st.rerun()
+    if cancelar:
+        st.rerun()
+    
 
 
-@st.dialog("Remover uma opção")
+@st.dialog('Remover uma opção')
 def remover_opcao():
     opcoes = st.session_state.estrategia.get_opcoes()
     if opcoes:
@@ -54,55 +61,64 @@ def remover_opcao():
             captions=[opcao.descrever() for opcao in opcoes]
         )
         st.error(f'A exclusão não poderá ser desfeita.', icon='🚨')
-        confirmar = st.button('Confirmar')
+        col1, col2 = st.columns(2)
+        confirmar = col1.button('Remover', use_container_width=True)
+        cancelar = col2.button('Cancelar', use_container_width=True)
         if confirmar:
             st.session_state.estrategia.remover_opcao(remover)
             st.rerun()
+        if cancelar:
+            st.rerun()
     else:
         st.warning(f'Adicione uma opção antes de removê-la.', icon='⚠️')
-        voltar = st.button('Voltar')
-        if voltar:
+        fechar = st.button('Fechar', use_container_width=True)
+        if fechar:
             st.rerun()
 
 
-# @st.dialog("Sua estratégia:")
-def ver_estrategia():
-    if not st.session_state.get('view_strategy'):
-        st.session_state.view_strategy = True
-        opcoes = st.session_state.opcoes
-        if opcoes:
-            df = pd.DataFrame(
-                [opcao.get_data() for opcao in opcoes]
-            ).set_index('nome')
-            # st.data_editor(df, num_rows='dynamic')
-            st.table(df)
-        else:
-            st.write('Ainda não há opções em sua estratégia!')
-    else:
-        st.session_state.view_strategy = False
-        st.write(st.session_state.view_strategy)
+@st.dialog('Confirmação')
+def confirmar_limpeza():
+    st.error(f'Tem certeza? Todas as opções serão excluídas.', icon='🚨')
+    col1, col2 = st.columns(2)
+    if col1.button('Confirmar', use_container_width=True):
+        st.session_state.estrategia.limpar_estrategia()
+        st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
         st.rerun()
+    if col2.button('Cancelar', use_container_width=True):
+        st.rerun()
+
+
+def ver_estrategia():
+    opcoes = st.session_state.opcoes
+    if opcoes:
+        df = pd.DataFrame(
+            [opcao.get_data() for opcao in opcoes]
+        ).set_index('nome')
+        # st.data_editor(df, num_rows='dynamic')
+        st.dataframe(df, use_container_width=True)
+    else:
+        st.info(f'Ainda não há opções adicionadas!', icon='💡')
 
 
 col1, col2, col3, col4 = st.columns(4)
 with col1:
-        ver = st.button('Ver Estratégia') 
+    adicionar = st.button('Adicionar Opção', use_container_width=True)
 with col2:
-    adicionar = st.button('Adicionar Opção')
+    remover = st.button('Remover Opção', use_container_width=True)
 with col3:
-    remover = st.button('Remover Opção')
+    limpar = st.button('Limpar Gráfico', use_container_width=True)
 with col4:
-    limpar = st.button('Limpar Gráfico')
+    ver = st.toggle('Ver Tabela', value=True) 
 
 if adicionar:
     adicionar_opcao()
-if ver:
-    ver_estrategia()
 if limpar:
-    st.session_state.estrategia.limpar_estrategia()
-    st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
+    confirmar_limpeza()
 if remover:
     remover_opcao()
+if ver:
+    st.subheader('Opções', divider='gray')
+    ver_estrategia()
 
 
 fig = go.Figure()
@@ -132,14 +148,17 @@ for opcao in opcoes:
         fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=opcao.nome)) # is this even necessary??????
     i += 1
 
-fig.update_yaxes(tickformat=".2f")
-fig.update_xaxes(tickformat=".2f")
+fig.update_yaxes(tickformat='.2f')
+fig.update_xaxes(tickformat='.2f')
 
 fig.update_layout(
     title={
         'text': 'Resultado no Vencimento',
         'x': 0.5,
-        'xanchor': 'center'
+        'xanchor': 'center',
+        'font': {
+            'size': 18
+        }
     },
     # xaxis={
     #     'range': [min_strike - delta, max_strike + delta]
@@ -151,9 +170,11 @@ fig.update_layout(
     template='plotly_dark'
 )
 
+
 st.plotly_chart(fig)
 
 
+st.subheader('Métricas', divider='gray')
 col1, col2, col3, col4 = st.columns(4)
 investido = st.session_state.estrategia.calcular_investimento()
 perda_maxima = st.session_state.estrategia.calcular_perda_maxima(x)
@@ -169,6 +190,7 @@ if ganho_maximo == 0 or investido == 0:
 else:
     col3.metric('Ganho Máximo (R$)', f'{ganho_maximo}', f'{ganho_maximo/abs(investido):.2%}')
 if perda_maxima != 0:
-    col4.metric('Ganho/Perda', f'{abs(ganho_maximo)/abs(perda_maxima):.1f}')
+    ganho_perda = abs(ganho_maximo)/abs(perda_maxima)
+    col4.metric('Ganho/Perda', f'{ganho_perda:.1f}x', f'{ganho_perda:.2%}')
 else:
     col4.metric('Ganho/Perda', '0')
