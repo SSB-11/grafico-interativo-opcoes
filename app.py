@@ -53,7 +53,7 @@ def remover_opcao():
             'Opção a remover:',
             opcoes
         )
-        confirmar = st.button('Remover')
+        confirmar = st.button('Confirmar')
         if confirmar:
             st.session_state.estrategia.remover_opcao(remover)
             st.rerun()
