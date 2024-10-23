@@ -11,7 +11,7 @@ if not st.session_state.get('estrategia'):
     st.session_state.estrategia = Estrategia()
 
 st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
-st.markdown("<h1 style='text-align: center;'>Gráfico Interativo</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>Gráfico de Opções</h1>", unsafe_allow_html=True)
 
 @st.dialog("Adicionar uma opção")
 def adicionar_opcao():
