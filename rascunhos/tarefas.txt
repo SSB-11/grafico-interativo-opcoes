@@ -7,17 +7,21 @@ FEITAS
     - https://docs.streamlit.io/develop/api-reference/data/st.metric
 
 PRIORIDADES
+-!!! botão 'Editar Opção'?
+-!!! botão para selecionar o range de preços a serem calculados, caso a pessoa não esteja satisfeita com o default?
 -!! em vez de deletar uma opção, deletar várias de uma vez? checkbox em vez de radio button + alterar código em estrategia.py para inserir um loop
 -!! botão para gerar opção automática!! (para testar quando estiver com preguiça de digitar) -> pode ser aleatória ou de um conjundo pré-definido
 -!! ou então gerar uma estratégia de exemplo!! (como a trava de alta da minha análise)
 - pedir feedback
--? botão 'Editar Opção'?
--? botão para selecionar o range de preços a serem calculados, caso a pessoa não esteja satisfeita com o default?
 
 POSSIBILIDADES
 -? uma sessão de análises abaixo da página, em forma de texto?
 -? decidir onde ficarão os botões (sidebar? form? modal dialog?)
 -? possibilidade de montar várias estratégias e compará-las?
+
+PEQUENOS BUGS:
+- ao clicar em um botão (adicionar, cancelar, etc) duas vezes seguidas (rápido), aparece um erro (desabilitar o botão após o primeiro clique?)
+- range x do gráfico possibilita preço do ativo negativo 
 
 
 API Reference:
