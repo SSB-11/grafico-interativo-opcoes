@@ -142,6 +142,7 @@ maior_valor_slider = (
     else max_strike + 10
 )
 menor_x, maior_x = (menor_preco, maior_preco)
+st.write('')
 if opcoes:
     menor_x, maior_x = st.slider('Intervalo de preço do ativo:', 0.0, maior_valor_slider, (menor_preco, maior_preco))
 else: # apenas estética
