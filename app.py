@@ -129,12 +129,23 @@ max_strike = 0
 if opcoes:
     min_strike = np.min([opcao.strike for opcao in opcoes])
     max_strike = np.max([opcao.strike for opcao in opcoes])
-    if (min_strike - max_strike) < 1:
+    if (max_strike - min_strike) < 1:
         min_strike -= 1
         max_strike += 1
 delta = max_strike - min_strike
 
-x = np.arange(min_strike - delta, max_strike + delta, 0.01)
+menor_preco = np.maximum(min_strike - delta, 0)
+maior_preco = max_strike + delta
+
+maior_valor_slider = (
+    max_strike * 2 if max_strike >= 10
+    else max_strike + 10
+)
+menor_x, maior_x = (menor_preco, maior_preco)
+if opcoes:
+    menor_x, maior_x = st.slider('Intervalo de preço do ativo:', 0.0, maior_valor_slider, (menor_preco, maior_preco))
+
+x = np.arange(menor_x, maior_x, 0.01)
 if len(opcoes) > 1:
     y = st.session_state.estrategia.calcular_payoff(x).round(2)
     fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Estratégia'))
