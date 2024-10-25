@@ -129,7 +129,7 @@ max_strike = 0
 if opcoes:
     min_strike = np.min([opcao.strike for opcao in opcoes])
     max_strike = np.max([opcao.strike for opcao in opcoes])
-    if (min_strike - max_strike) < 1:
+    if (max_strike - min_strike) < 1:
         min_strike -= 1
         max_strike += 1
 delta = max_strike - min_strike
