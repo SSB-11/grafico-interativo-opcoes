@@ -108,7 +108,7 @@ with col2:
 with col3:
     limpar = st.button('Limpar Gráfico', use_container_width=True)
 with col4:
-    ver = st.toggle('Ver Tabela', value=True) 
+    ver = st.toggle('Ver Tabela', value=True, help='Mostra todas as opções adicionadas.') 
 
 if adicionar:
     adicionar_opcao()
