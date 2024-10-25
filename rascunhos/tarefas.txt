@@ -5,10 +5,10 @@ FEITAS
 -OK botão de confirmação para limpar o gráfico
 -OK? métricas (percentual ganho, ganho por opção, etc - olhar minha análise .ipynb)
     - https://docs.streamlit.io/develop/api-reference/data/st.metric
+-OK botão para selecionar o range de preços a serem calculados, caso a pessoa não esteja satisfeita com o default
 
 PRIORIDADES
 -!!! botão 'Editar Opção'?
--!!! botão para selecionar o range de preços a serem calculados, caso a pessoa não esteja satisfeita com o default?
 -!! em vez de deletar uma opção, deletar várias de uma vez? checkbox em vez de radio button + alterar código em estrategia.py para inserir um loop
 -!! botão para gerar opção automática!! (para testar quando estiver com preguiça de digitar) -> pode ser aleatória ou de um conjundo pré-definido
 -!! ou então gerar uma estratégia de exemplo!! (como a trava de alta da minha análise)
@@ -20,8 +20,8 @@ POSSIBILIDADES
 -? possibilidade de montar várias estratégias e compará-las?
 
 PEQUENOS BUGS:
-- ao clicar em um botão (adicionar, cancelar, etc) duas vezes seguidas (rápido), aparece um erro (desabilitar o botão após o primeiro clique?)
-- range x do gráfico possibilita preço do ativo negativo 
+- [PENDENTE] ao clicar em um botão (adicionar, cancelar, etc) duas vezes seguidas (rápido), aparece um erro (desabilitar o botão após o primeiro clique?)
+- [CORRIGIDO] range x do gráfico possibilita preço do ativo negativo 
 
 
 API Reference:
