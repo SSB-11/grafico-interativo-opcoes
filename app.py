@@ -144,6 +144,8 @@ maior_valor_slider = (
 menor_x, maior_x = (menor_preco, maior_preco)
 if opcoes:
     menor_x, maior_x = st.slider('Intervalo de preço do ativo:', 0.0, maior_valor_slider, (menor_preco, maior_preco))
+else: # apenas estética
+    st.slider('Intervalo de preço do ativo:', 0.0, 0.0, (0.0, 100.0), disabled=True)
 
 x = np.arange(menor_x, maior_x, 0.01)
 if len(opcoes) > 1:
