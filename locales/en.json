@@ -1,3 +1,56 @@
 {
-    "todo": "//todo"
+    "app.title": "Options Calculator",
+
+    "btn.add": "Add",
+    "btn.delete": "Remove",
+    "btn.cancel": "Cancel",
+    "btn.clear": "Clear",
+    "btn.close": "Close",
+
+    "table.toggle.title": "Show Table",
+    "table.toggle.hint": "Show all the options added to the strategy.",
+    "table.toggle.warning.noOptionsYet": "There are no options yet!",
+    "table.title": "Options",
+ 
+    "dialog.add.title": "Add Option",
+    "dialog.add.input.text.id.label": "Name",
+    "dialog.add.input.text.id.placeholder": "Option",
+    
+    "dialog.add.input.radio.tradeType.label": "Trade Type",
+    "dialog.add.input.radio.tradeType.buy.value": "Buy",
+    "dialog.add.input.radio.tradeType.buy.caption": "Buy the Option",
+    "dialog.add.input.radio.tradeType.sell.value": "Sell",
+    "dialog.add.input.radio.tradeType.sell.caption": "Sell the Option",
+    
+    "dialog.add.input.radio.optionType.label": "Option Type",
+    "dialog.add.input.radio.optionType.call.value": "Call",
+    "dialog.add.input.radio.optionType.call.caption": "The Right to Buy the Asset",
+    "dialog.add.input.radio.optionType.put.value": "Put",
+    "dialog.add.input.radio.optionType.put.caption": "The Right to Sell the Asset",
+    
+    "dialog.add.input.number.premium.label": "Premium",
+    "dialog.add.input.number.strike.label": "Strike",
+    "dialog.add.input.number.quantity.label": "Quantity",
+    
+    "dialog.clear.title": "Confirmation",
+    
+    "dialog.delete.title": "Remove Option",
+    "dialog.delete.input.radio.label": "Option to be removed",
+    
+    "warning.dialog.delete.irreversible": "The removal cannot be undone.",
+    "warning.dialog.delete.confirmation": "Are you sure? All your options will be deleted.",
+    "warning.dialog.delete.noOptionsYet": "Add an option before removing it.",
+    
+    "slider.input.label": "Asset price interval",
+
+    "graph.title": "Result on Maturity",
+    "graph.xaxis.title": "Asset price (U$)",
+    "graph.yaxis.title": "Profit/Loss (U$)",
+    "graph.line.strategy.name": "Strategy",
+
+    "metrics.title": "Metrics",
+    "metrics.label.invested": "Invested (U$)",
+    "metrics.label.maxLoss": "Maximum Loss (U$)",
+    "metrics.label.maxProfit": "Maximum Profit (U$)",
+    "metrics.label.profitOverLoss": "Profit/Loss ratio"
 }

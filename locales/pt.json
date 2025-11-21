@@ -16,17 +16,17 @@
     "dialog.add.input.text.id.label": "Identificador",
     "dialog.add.input.text.id.placeholder": "Opção",
     
-    "dialog.add.input.radio.optionType.label": "Tipo de Opção",
-    "dialog.add.input.radio.optionType.buy.value": "Compra",
-    "dialog.add.input.radio.optionType.buy.caption": "Compra de Opção",
-    "dialog.add.input.radio.optionType.sell.value": "Venda",
-    "dialog.add.input.radio.optionType.sell.caption": "Venda de Opção",
-    
     "dialog.add.input.radio.tradeType.label": "Tipo de operação",
-    "dialog.add.input.radio.tradeType.call.value": "Call",
-    "dialog.add.input.radio.tradeType.call.caption": "Opção de Compra",
-    "dialog.add.input.radio.tradeType.put.value": "Put",
-    "dialog.add.input.radio.tradeType.put.caption": "Opção de Venda",
+    "dialog.add.input.radio.tradeType.buy.value": "Compra",
+    "dialog.add.input.radio.tradeType.buy.caption": "Compra de Opção",
+    "dialog.add.input.radio.tradeType.sell.value": "Venda",
+    "dialog.add.input.radio.tradeType.sell.caption": "Venda de Opção",
+    
+    "dialog.add.input.radio.optionType.label": "Tipo de Opção",
+    "dialog.add.input.radio.optionType.call.value": "Call",
+    "dialog.add.input.radio.optionType.call.caption": "Opção de Compra",
+    "dialog.add.input.radio.optionType.put.value": "Put",
+    "dialog.add.input.radio.optionType.put.caption": "Opção de Venda",
     
     "dialog.add.input.number.premium.label": "Prêmio",
     "dialog.add.input.number.strike.label": "Strike",
