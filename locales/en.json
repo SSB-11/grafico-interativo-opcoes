@@ -4,6 +4,7 @@
     "btn.add": "Add",
     "btn.delete": "Remove",
     "btn.cancel": "Cancel",
+    "btn.confirm": "Confirm",
     "btn.clear": "Clear",
     "btn.close": "Close",
 
@@ -28,8 +29,8 @@
     "dialog.add.input.radio.optionType.put.value": "Put",
     "dialog.add.input.radio.optionType.put.caption": "The Right to Sell the Asset",
     
-    "dialog.add.input.number.premium.label": "Premium",
     "dialog.add.input.number.strike.label": "Strike",
+    "dialog.add.input.number.premium.label": "Premium",
     "dialog.add.input.number.quantity.label": "Quantity",
     
     "dialog.clear.title": "Confirmation",
@@ -46,7 +47,7 @@
     "graph.title": "Result on Maturity",
     "graph.xaxis.title": "Asset price (U$)",
     "graph.yaxis.title": "Profit/Loss (U$)",
-    "graph.line.strategy.name": "Strategy",
+    "graph.line.strategy": "Strategy",
 
     "metrics.title": "Metrics",
     "metrics.label.invested": "Invested (U$)",

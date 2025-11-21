@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 
 from model.option import Call, Put
 from model.strategy import Strategy
+from utils.i18n import I18N
 
 
 # Init session data
@@ -12,37 +13,40 @@ if st.session_state.get('strategy') is None:
     st.session_state.strategy = Strategy()
 st.session_state.options = st.session_state.strategy.get_options()
 
+# Init translator
+i18n = I18N('pt') # for now, assume selected language is portuguese
+
 # Main title
-st.markdown('<h1 style="text-align: center;">Gráfico de Opções</h1>', unsafe_allow_html=True)
+st.markdown(f'<h1 style="text-align: center;">{i18n.t("app.title")}</h1>', unsafe_allow_html=True)
 
 # Build "add option" button's dialog + logic
-@st.dialog('Adicionar uma opção')
+@st.dialog(i18n.t('dialog.add.title'))
 def add_option():
-    name = st.text_input('Identificador: ', value=f'Opção {len(st.session_state.options) + 1}')
+    name = st.text_input(f'{i18n.t("dialog.add.input.text.id.label")}: ', value=f'{i18n.t("dialog.add.input.text.id.placeholder")} {len(st.session_state.options) + 1}')
     col1, col2 = st.columns(2)
     with col1:
         trade_type = st.radio(
-            'Tipo de operação:',
-            ['Compra', 'Venda'],
-            captions=['Compra de Opção', 'Venda de Opção']
+            i18n.t('dialog.add.input.radio.tradeType.label') + ':',
+            [i18n.t('dialog.add.input.radio.tradeType.buy.value'), i18n.t('dialog.add.input.radio.tradeType.sell.value')],
+            captions=[i18n.t('dialog.add.input.radio.tradeType.buy.caption'), i18n.t('dialog.add.input.radio.tradeType.sell.caption')]
         )
     with col2:
         option_type = st.radio(
-            'Tipo de opção:',
-            ['Call', 'Put'],
-            captions=['Opção de Compra', 'Opção de Venda']
+            i18n.t('dialog.add.input.radio.optionType.label') + ':',
+            [i18n.t('dialog.add.input.radio.optionType.call.value'), i18n.t('dialog.add.input.radio.optionType.put.value')],
+            captions=[i18n.t('dialog.add.input.radio.optionType.call.caption'), i18n.t('dialog.add.input.radio.optionType.put.caption')]
         )
-    strike = st.number_input('Strike: ', min_value=0.01, step=0.01)
-    premium = st.number_input('Prêmio: ', min_value=0.01, step=0.01)
-    quantity = st.number_input('Quantidade: ', min_value=1, step=100, value=100)
+    strike = st.number_input(i18n.t('dialog.add.input.number.strike.label') + ': ', min_value=0.01, step=0.01)
+    premium = st.number_input(i18n.t('dialog.add.input.number.premium.label') + ': ', min_value=0.01, step=0.01)
+    quantity = st.number_input(i18n.t('dialog.add.input.number.quantity.label') + ': ', min_value=1, step=100, value=100)
     
     col1, col2 = st.columns(2)
-    add_button = col1.button('Adicionar', use_container_width=True)
-    cancel_button = col2.button('Cancelar', use_container_width=True)
+    add_button = col1.button(i18n.t('btn.add'), use_container_width=True)
+    cancel_button = col2.button(i18n.t('btn.cancel'), use_container_width=True)
     if add_button:
         option = (
             Call(name, strike, premium, trade_type, quantity) 
-            if option_type == 'Call' 
+            if option_type == i18n.t('dialog.add.input.radio.optionType.call.value')
             else Put(name, strike, premium, trade_type, quantity)
         )
         st.session_state.strategy.add_option(option)
@@ -52,40 +56,40 @@ def add_option():
         st.rerun()
 
 # Build "remove option" button's dialog + logic
-@st.dialog('Remover uma opção')
+@st.dialog(i18n.t('dialog.delete.title'))
 def remove_option():
     options = st.session_state.strategy.get_options()
     if options:
         to_remove = st.radio(
-            'Opção a remover:',
+            i18n.t('dialog.delete.input.radio.label') + ':',
             options,
             captions=[option.describe() for option in options]
         )
-        st.error(f'A exclusão não poderá ser desfeita.', icon='🚨')
+        st.error(i18n.t('warning.dialog.delete.irreversible'), icon='🚨')
         col1, col2 = st.columns(2)
-        confirm = col1.button('Remover', use_container_width=True)
-        cancel = col2.button('Cancelar', use_container_width=True)
-        if confirm:
+        remove = col1.button(i18n.t('btn.delete'), use_container_width=True)
+        cancel = col2.button(i18n.t('btn.cancel'), use_container_width=True)
+        if remove:
             st.session_state.strategy.remove_option(to_remove)
             st.rerun()
         if cancel:
             st.rerun()
     else:
-        st.warning(f'Adicione uma opção antes de removê-la.', icon='⚠️')
-        close = st.button('Fechar', use_container_width=True)
+        st.warning(i18n.t('warning.dialog.delete.noOptionsYet'), icon='⚠️')
+        close = st.button(i18n.t('btn.close'), use_container_width=True)
         if close:
             st.rerun()
 
 # Build "clear" button's dialog + logic
-@st.dialog('Confirmação')
+@st.dialog(i18n.t('dialog.clear.title'))
 def confirm_clear():
-    st.error(f'Tem certeza? Todas as opções serão excluídas.', icon='🚨')
+    st.error(i18n.t('warning.dialog.delete.confirmation'), icon='🚨')
     col1, col2 = st.columns(2)
-    if col1.button('Confirmar', use_container_width=True):
+    if col1.button(i18n.t('btn.confirm'), use_container_width=True):
         st.session_state.strategy.clear_strategy()
         st.session_state.options = st.session_state.strategy.get_options()
         st.rerun()
-    if col2.button('Cancelar', use_container_width=True):
+    if col2.button(i18n.t('btn.cancel'), use_container_width=True):
         st.rerun()
 
 # Build table view of all options inside the strategy
@@ -98,18 +102,18 @@ def view_strategy_table():
         # st.data_editor(df, num_rows='dynamic')
         st.dataframe(df, use_container_width=True)
     else:
-        st.info(f'Ainda não há opções adicionadas!', icon='💡')
+        st.info(i18n.t('table.toggle.warning.noOptionsYet'), icon='💡')
 
 # Build main menu
 col1, col2, col3, col4 = st.columns(4)
 with col1:
-    add_button = st.button('Adicionar Opção', use_container_width=True)
+    add_button = st.button(i18n.t('dialog.add.title'), use_container_width=True)
 with col2:
-    remove_button = st.button('Remover Opção', use_container_width=True)
+    remove_button = st.button(i18n.t('dialog.delete.title'), use_container_width=True)
 with col3:
-    clear_button = st.button('Limpar Gráfico', use_container_width=True)
+    clear_button = st.button(i18n.t('btn.clear'), use_container_width=True)
 with col4:
-    view_strategy_table_button = st.toggle('Ver Tabela', value=True, help='Mostra todas as opções adicionadas.') 
+    view_strategy_table_button = st.toggle(i18n.t('table.toggle.title'), value=True, help=i18n.t('table.toggle.hint')) 
 
 if add_button:
     add_option()
@@ -118,7 +122,7 @@ if clear_button:
 if remove_button:
     remove_option()
 if view_strategy_table_button:
-    st.subheader('Opções', divider='gray')
+    st.subheader(i18n.t('table.title'), divider='gray')
     view_strategy_table()
 
 # Build payoff interactive graph
@@ -151,15 +155,15 @@ st.write('')
 
 min_x_selector, max_x_selector = (min_price, max_price)
 if options:
-    min_x_selector, max_x_selector = st.slider('Intervalo de preço do ativo:', min_slider_x_value, max_slider_x_value, selected_slider_x_range)
+    min_x_selector, max_x_selector = st.slider(i18n.t('slider.input.label') + ':', min_slider_x_value, max_slider_x_value, selected_slider_x_range)
 else: # disable selector when there are no options on the strategy yet
-    st.slider('Intervalo de preço do ativo:', 0.0, 0.0, (0.0, 100.0), disabled=True)
+    st.slider(i18n.t('slider.input.label') + ':', 0.0, 0.0, (0.0, 100.0), disabled=True)
 
 # Add a line on the graph for the resulting payoff
 x = np.arange(min_x_selector, max_x_selector, 0.01)
 if len(options) > 1:
     y = st.session_state.strategy.calculate_payoff(x).round(2)
-    fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Estratégia'))
+    fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=i18n.t('graph.line.strategy')))
 
 # Add a line on the payoff graph for each individual option
 i = 1
@@ -176,7 +180,7 @@ fig.update_xaxes(tickformat='.2f')
 
 fig.update_layout(
     title={
-        'text': 'Resultado no Vencimento',
+        'text': i18n.t('graph.title'),
         'x': 0.5,
         'xanchor': 'center',
         'font': {
@@ -186,8 +190,8 @@ fig.update_layout(
     # xaxis={
     #     'range': [min_strike - delta, max_strike + delta]
     # },
-    xaxis_title='Preço do Ativo (R$)',
-    yaxis_title='Lucro/Prejuízo (R$)',
+    xaxis_title=i18n.t('graph.xaxis.title'),
+    yaxis_title=i18n.t('graph.yaxis.title'),
     width=800,
     height=600,
     template='plotly_dark'
@@ -196,23 +200,23 @@ fig.update_layout(
 st.plotly_chart(fig)
 
 # Calculate and display metrics
-st.subheader('Métricas', divider='gray')
+st.subheader(i18n.t('metrics.title'), divider='gray')
 col1, col2, col3, col4 = st.columns(4)
 invested_amount = st.session_state.strategy.calculate_invested_amount()
 maximum_loss = st.session_state.strategy.calculate_maximum_loss(x)
 maximum_profit = st.session_state.strategy.calculate_maximum_profit(x)
 
-col1.metric('Investido (R$)', f'{invested_amount}') #???
+col1.metric(i18n.t('metrics.label.invested'), f'{invested_amount}') #???
 if maximum_loss == 0 or invested_amount == 0:
-    col2.metric('Perda Máxima (R$)', f'{maximum_loss}')
+    col2.metric(i18n.t('metrics.label.maxLoss'), f'{maximum_loss}')
 else:
-    col2.metric('Perda Máxima (R$)', f'{maximum_loss}', f'{maximum_loss/abs(invested_amount):.2%}')
+    col2.metric(i18n.t('metrics.label.maxLoss'), f'{maximum_loss}', f'{maximum_loss/abs(invested_amount):.2%}')
 if maximum_profit == 0 or invested_amount == 0:
-    col3.metric('Ganho Máximo (R$)', f'{maximum_profit}')
+    col3.metric(i18n.t('metrics.label.maxProfit'), f'{maximum_profit}')
 else:
-    col3.metric('Ganho Máximo (R$)', f'{maximum_profit}', f'{maximum_profit/abs(invested_amount):.2%}')
+    col3.metric(i18n.t('metrics.label.maxProfit'), f'{maximum_profit}', f'{maximum_profit/abs(invested_amount):.2%}')
 if maximum_loss != 0:
     max_profit_over_max_loss = abs(maximum_profit)/abs(maximum_loss)
-    col4.metric('Ganho/Perda', f'{max_profit_over_max_loss:.1f}x', f'{max_profit_over_max_loss:.2%}')
+    col4.metric(i18n.t('metrics.label.profitOverLoss'), f'{max_profit_over_max_loss:.1f}x', f'{max_profit_over_max_loss:.2%}')
 else:
-    col4.metric('Ganho/Perda', '0')
+    col4.metric(i18n.t('metrics.label.profitOverLoss'), '0')

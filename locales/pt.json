@@ -4,6 +4,7 @@
     "btn.add": "Adicionar",
     "btn.delete": "Remover",
     "btn.cancel": "Cancelar",
+    "btn.confirm": "Confirmar",
     "btn.clear": "Limpar Gráfico",
     "btn.close": "Fechar",
 
@@ -28,8 +29,8 @@
     "dialog.add.input.radio.optionType.put.value": "Put",
     "dialog.add.input.radio.optionType.put.caption": "Opção de Venda",
     
-    "dialog.add.input.number.premium.label": "Prêmio",
     "dialog.add.input.number.strike.label": "Strike",
+    "dialog.add.input.number.premium.label": "Prêmio",
     "dialog.add.input.number.quantity.label": "Quantidade",
     
     "dialog.clear.title": "Confirmação",
@@ -46,7 +47,7 @@
     "graph.title": "Resultado no Vencimento",
     "graph.xaxis.title": "Preço do Ativo (R$)",
     "graph.yaxis.title": "Lucro/Prejuízo (R$)",
-    "graph.line.strategy.name": "Estratégia",
+    "graph.line.strategy": "Estratégia",
 
     "metrics.title": "Métricas",
     "metrics.label.invested": "Investido (R$)",
