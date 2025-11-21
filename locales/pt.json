@@ -1,0 +1,56 @@
+{
+    "app.title": "Gráfico de Opções",
+
+    "btn.add": "Adicionar",
+    "btn.delete": "Remover",
+    "btn.cancel": "Cancelar",
+    "btn.clear": "Limpar Gráfico",
+    "btn.close": "Fechar",
+
+    "table.toggle.title": "Ver Tabela",
+    "table.toggle.hint": "Mostra todas as opções adicionadas.",
+    "table.toggle.warning.noOptionsYet": "Ainda não há opções adicionadas!",
+    "table.title": "Opções",
+ 
+    "dialog.add.title": "Adicionar Opção",
+    "dialog.add.input.text.id.label": "Identificador",
+    "dialog.add.input.text.id.placeholder": "Opção",
+    
+    "dialog.add.input.radio.optionType.label": "Tipo de Opção",
+    "dialog.add.input.radio.optionType.buy.value": "Compra",
+    "dialog.add.input.radio.optionType.buy.caption": "Compra de Opção",
+    "dialog.add.input.radio.optionType.sell.value": "Venda",
+    "dialog.add.input.radio.optionType.sell.caption": "Venda de Opção",
+    
+    "dialog.add.input.radio.tradeType.label": "Tipo de operação",
+    "dialog.add.input.radio.tradeType.call.value": "Call",
+    "dialog.add.input.radio.tradeType.call.caption": "Opção de Compra",
+    "dialog.add.input.radio.tradeType.put.value": "Put",
+    "dialog.add.input.radio.tradeType.put.caption": "Opção de Venda",
+    
+    "dialog.add.input.number.premium.label": "Prêmio",
+    "dialog.add.input.number.strike.label": "Strike",
+    "dialog.add.input.number.quantity.label": "Quantidade",
+    
+    "dialog.clear.title": "Confirmação",
+    
+    "dialog.delete.title": "Remover Opção",
+    "dialog.delete.input.radio.label": "Opção a remover",
+    
+    "warning.dialog.delete.irreversible": "A exclusão não poderá ser desfeita.",
+    "warning.dialog.delete.confirmation": "Tem certeza? Todas as opções serão excluídas.",
+    "warning.dialog.delete.noOptionsYet": "Adicione uma opção antes de removê-la.",
+    
+    "slider.input.label": "Intervalo de preço do ativo",
+
+    "graph.title": "Resultado no Vencimento",
+    "graph.xaxis.title": "Preço do Ativo (R$)",
+    "graph.yaxis.title": "Lucro/Prejuízo (R$)",
+    "graph.line.strategy.name": "Estratégia",
+
+    "metrics.title": "Métricas",
+    "metrics.label.invested": "Investido (R$)",
+    "metrics.label.maxLoss": "Perda Máxima (R$)",
+    "metrics.label.maxProfit": "Ganho Máximo (R$)",
+    "metrics.label.profitOverLoss": "Ganho/Perda"
+}

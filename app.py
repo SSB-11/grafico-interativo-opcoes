@@ -15,7 +15,7 @@ st.session_state.options = st.session_state.strategy.get_options()
 # Main title
 st.markdown('<h1 style="text-align: center;">Gráfico de Opções</h1>', unsafe_allow_html=True)
 
-# Build "add option" button
+# Build "add option" button's dialog + logic
 @st.dialog('Adicionar uma opção')
 def add_option():
     name = st.text_input('Identificador: ', value=f'Opção {len(st.session_state.options) + 1}')
@@ -51,7 +51,7 @@ def add_option():
     if cancel_button:
         st.rerun()
 
-# Build "remove option" button
+# Build "remove option" button's dialog + logic
 @st.dialog('Remover uma opção')
 def remove_option():
     options = st.session_state.strategy.get_options()
@@ -76,7 +76,7 @@ def remove_option():
         if close:
             st.rerun()
 
-# Build "clear" button
+# Build "clear" button's dialog + logic
 @st.dialog('Confirmação')
 def confirm_clear():
     st.error(f'Tem certeza? Todas as opções serão excluídas.', icon='🚨')
