@@ -11,32 +11,32 @@ if not st.session_state.get('estrategia'):
     st.session_state.estrategia = Estrategia()
 st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
 
-st.markdown('<h1 style="text-align: center;">Gráfico de Opções</h1>', unsafe_allow_html=True)
+st.markdown('<h1 style="text-align: center;">Options Calculator</h1>', unsafe_allow_html=True)
 
 
-@st.dialog('Adicionar uma opção')
+@st.dialog('Add Option')
 def adicionar_opcao():
-    nome = st.text_input('Identificador: ', value=f'Opção {len(st.session_state.opcoes) + 1}')
+    nome = st.text_input('Name: ', value=f'Option {len(st.session_state.opcoes) + 1}')
     col1, col2 = st.columns(2)
     with col1:
         operacao = st.radio(
-            'Tipo de operação:',
-            ['Compra', 'Venda'],
-            captions=['Compra de Opção', 'Venda de Opção']
+            'Trade Type:',
+            ['Long', 'Short'],
+            captions=['Buy the Option', 'Sell the Option']
         )
     with col2:
         tipo_opcao = st.radio(
-            'Tipo de opção:',
+            'Option Type:',
             ['Call', 'Put'],
-            captions=['Opção de Compra', 'Opção de Venda']
+            captions=['Right to Buy the Asset', 'Right to Sell the Asset']
         )
     strike = st.number_input('Strike: ', min_value=0.01, step=0.01)
-    premio = st.number_input('Prêmio: ', min_value=0.01, step=0.01)
-    quantidade = st.number_input('Quantidade: ', min_value=1, step=100, value=100)
+    premio = st.number_input('Premium: ', min_value=0.01, step=0.01)
+    quantidade = st.number_input('Quantity: ', min_value=1, step=100, value=100)
     
     col1, col2 = st.columns(2)
-    adicionar = col1.button('Adicionar', use_container_width=True)
-    cancelar = col2.button('Cancelar', use_container_width=True)
+    adicionar = col1.button('Add', use_container_width=True)
+    cancelar = col2.button('Cancel', use_container_width=True)
     if adicionar:
         opcao = (
             Call(nome, strike, premio, operacao, quantidade) 
@@ -51,40 +51,40 @@ def adicionar_opcao():
     
 
 
-@st.dialog('Remover uma opção')
+@st.dialog('Remove Option')
 def remover_opcao():
     opcoes = st.session_state.estrategia.get_opcoes()
     if opcoes:
         remover = st.radio(
-            'Opção a remover:',
+            'Option to Remove:',
             opcoes,
             captions=[opcao.descrever() for opcao in opcoes]
         )
-        st.error(f'A exclusão não poderá ser desfeita.', icon='🚨')
+        st.error(f'The removal cannot be undone.', icon='🚨')
         col1, col2 = st.columns(2)
-        confirmar = col1.button('Remover', use_container_width=True)
-        cancelar = col2.button('Cancelar', use_container_width=True)
+        confirmar = col1.button('Remove', use_container_width=True)
+        cancelar = col2.button('Cancel', use_container_width=True)
         if confirmar:
             st.session_state.estrategia.remover_opcao(remover)
             st.rerun()
         if cancelar:
             st.rerun()
     else:
-        st.warning(f'Adicione uma opção antes de removê-la.', icon='⚠️')
-        fechar = st.button('Fechar', use_container_width=True)
+        st.warning(f'Add an option before removing it.', icon='⚠️')
+        fechar = st.button('Close', use_container_width=True)
         if fechar:
             st.rerun()
 
 
-@st.dialog('Confirmação')
+@st.dialog('Confirmation')
 def confirmar_limpeza():
-    st.error(f'Tem certeza? Todas as opções serão excluídas.', icon='🚨')
+    st.error(f'Are you sure? All your options will be deleted.', icon='🚨')
     col1, col2 = st.columns(2)
-    if col1.button('Confirmar', use_container_width=True):
+    if col1.button('Confirm', use_container_width=True):
         st.session_state.estrategia.limpar_estrategia()
         st.session_state.opcoes = st.session_state.estrategia.get_opcoes()
         st.rerun()
-    if col2.button('Cancelar', use_container_width=True):
+    if col2.button('Cancel', use_container_width=True):
         st.rerun()
 
 
@@ -93,22 +93,22 @@ def ver_estrategia():
     if opcoes:
         df = pd.DataFrame(
             [opcao.get_data() for opcao in opcoes]
-        ).set_index('nome')
+        ).set_index('Name')
         # st.data_editor(df, num_rows='dynamic')
         st.dataframe(df, use_container_width=True)
     else:
-        st.info(f'Ainda não há opções adicionadas!', icon='💡')
+        st.info(f'There are no options yet!', icon='💡')
 
 
 col1, col2, col3, col4 = st.columns(4)
 with col1:
-    adicionar = st.button('Adicionar Opção', use_container_width=True)
+    adicionar = st.button('Add Option', use_container_width=True)
 with col2:
-    remover = st.button('Remover Opção', use_container_width=True)
+    remover = st.button('Remove Option', use_container_width=True)
 with col3:
-    limpar = st.button('Limpar Gráfico', use_container_width=True)
+    limpar = st.button('Clear', use_container_width=True)
 with col4:
-    ver = st.toggle('Ver Tabela', value=True, help='Mostra todas as opções adicionadas.') 
+    ver = st.toggle('Show Table', value=True, help='Show all the options added to the strategy.') 
 
 if adicionar:
     adicionar_opcao()
@@ -117,7 +117,7 @@ if limpar:
 if remover:
     remover_opcao()
 if ver:
-    st.subheader('Opções', divider='gray')
+    st.subheader('Options', divider='gray')
     ver_estrategia()
 
 
@@ -144,14 +144,14 @@ maior_valor_slider = (
 menor_x, maior_x = (menor_preco, maior_preco)
 st.write('')
 if opcoes:
-    menor_x, maior_x = st.slider('Intervalo de preço do ativo:', 0.0, maior_valor_slider, (menor_preco, maior_preco))
+    menor_x, maior_x = st.slider('Asset price interval:', 0.0, maior_valor_slider, (menor_preco, maior_preco))
 else: # apenas estética
-    st.slider('Intervalo de preço do ativo:', 0.0, 0.0, (0.0, 100.0), disabled=True)
+    st.slider('Asset price interval:', 0.0, 0.0, (0.0, 100.0), disabled=True)
 
 x = np.arange(menor_x, maior_x, 0.01)
 if len(opcoes) > 1:
     y = st.session_state.estrategia.calcular_payoff(x).round(2)
-    fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Estratégia'))
+    fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='Strategy'))
 
 i = 1
 for opcao in opcoes:
@@ -167,7 +167,7 @@ fig.update_xaxes(tickformat='.2f')
 
 fig.update_layout(
     title={
-        'text': 'Resultado no Vencimento',
+        'text': 'Result at Maturity',
         'x': 0.5,
         'xanchor': 'center',
         'font': {
@@ -177,8 +177,8 @@ fig.update_layout(
     # xaxis={
     #     'range': [min_strike - delta, max_strike + delta]
     # },
-    xaxis_title='Preço do Ativo (R$)',
-    yaxis_title='Lucro/Prejuízo (R$)',
+    xaxis_title='Asset Price ($)',
+    yaxis_title='Profit/Loss ($)',
     width=800,
     height=600,
     template='plotly_dark'
@@ -188,23 +188,23 @@ fig.update_layout(
 st.plotly_chart(fig)
 
 
-st.subheader('Métricas', divider='gray')
+st.subheader('Metrics', divider='gray')
 col1, col2, col3, col4 = st.columns(4)
 investido = st.session_state.estrategia.calcular_investimento()
 perda_maxima = st.session_state.estrategia.calcular_perda_maxima(x)
 ganho_maximo = st.session_state.estrategia.calcular_ganho_maximo(x)
 
-col1.metric('Investido (R$)', f'{investido}') #???
+col1.metric('Invested ($)', f'{investido}') #???
 if perda_maxima == 0 or investido == 0:
-    col2.metric('Perda Máxima (R$)', f'{perda_maxima}')
+    col2.metric('Maximum Loss ($)', f'{perda_maxima}')
 else:
-    col2.metric('Perda Máxima (R$)', f'{perda_maxima}', f'{perda_maxima/abs(investido):.2%}')
+    col2.metric('Maximum Loss ($)', f'{perda_maxima}', f'{perda_maxima/abs(investido):.2%}')
 if ganho_maximo == 0 or investido == 0:
-    col3.metric('Ganho Máximo (R$)', f'{ganho_maximo}')
+    col3.metric('Maximum Profit ($)', f'{ganho_maximo}')
 else:
-    col3.metric('Ganho Máximo (R$)', f'{ganho_maximo}', f'{ganho_maximo/abs(investido):.2%}')
+    col3.metric('Maximum Profit ($)', f'{ganho_maximo}', f'{ganho_maximo/abs(investido):.2%}')
 if perda_maxima != 0:
     ganho_perda = abs(ganho_maximo)/abs(perda_maxima)
-    col4.metric('Ganho/Perda', f'{ganho_perda:.1f}x', f'{ganho_perda:.2%}')
+    col4.metric('Profit/Loss ratio', f'{ganho_perda:.1f}x', f'{ganho_perda:.2%}')
 else:
-    col4.metric('Ganho/Perda', '0')
+    col4.metric('Profit/Loss ratio', '0')

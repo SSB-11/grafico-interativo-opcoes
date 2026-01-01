@@ -2,7 +2,7 @@ import numpy as np
 from abc import ABC, abstractmethod
 
 class Opcao(ABC):
-    def __init__(self, nome: str, strike: float, premio: float, operacao: str = 'Compra', quantidade: int = 100):
+    def __init__(self, nome: str, strike: float, premio: float, operacao: str = 'Long', quantidade: int = 100):
         """
         Inicializa uma nova instância da classe Opcao.
         
@@ -10,7 +10,7 @@ class Opcao(ABC):
         nome (str): Nome que identifica a opção.
         strike (float): Preço de exercício (strike).
         premio (float): Prêmio pago ou recebido pela opção.
-        operacao (str): `Compra` ou `Venda` da opção (padrão é `Compra`).
+        operacao (str): `Long` ou `Short` da opção (padrão é `Long`).
         quantidade (int): Quantidade de opções compradas ou vendidas (padrão é 100).
         """
         self.nome = nome
@@ -39,9 +39,9 @@ class Opcao(ABC):
         - Quando uma opção é vendida, recebe-se um prêmio.
         """
         preco_acao = np.array(preco_acao)
-        if self.operacao == 'Compra':
+        if self.operacao == 'Long':
             return self.quantidade * (self.calcular_preco_vencimento(preco_acao) - self.premio).round(2)
-        if self.operacao == 'Venda':
+        if self.operacao == 'Short':
             return self.quantidade * (self.premio - self.calcular_preco_vencimento(preco_acao)).round(2)
 
 
@@ -50,17 +50,17 @@ class Opcao(ABC):
         Retorna os dados da opção em formato de dicionário.
         """
         return {
-            'nome': self.nome, 
-            'tipo': self.tipo, 
-            'strike': self.strike, 
-            'premio': self.premio, 
-            'quantidade': self.quantidade, 
-            'operacao': self.operacao,
+            'Name': self.nome, 
+            'Direction': self.operacao,
+            'Type': self.tipo, 
+            'Strike': self.strike, 
+            'Premium': self.premio, 
+            'Quantity': self.quantidade, 
         }
 
 
     def descrever(self):
-        return f'({self.tipo}, Strike: {self.strike}, Prêmio: {self.premio}, Qtd: {self.quantidade}, {self.operacao})'
+        return f'({self.tipo}, Strike: {self.strike}, Premium: {self.premio}, Qty: {self.quantidade}, {self.operacao})'
 
 
     def __str__(self):
